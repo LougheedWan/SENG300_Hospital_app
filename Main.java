@@ -27,15 +27,37 @@ public class Main extends Application {
 	
 	// Methods
 	
-	public boolean checkLogin(String username, String password) {
+	public boolean checkLogin(String username, String password){
 		// check file IO for file titled given username
 		// check password if it matches
 		// If matches return true, else return false
-		return false;
+                boolean login = false; // boolean used to check if user exists
+                String userid = "";
+                String pass = "";
+                Scanner x;
+                try{
+                    x = new Scanner(new File("users.txt"));
+                    x.useDelimiter("[,\n");
+                    while(x.hasNext() && login == false){
+                        userid = x.next();
+                        pass = x.next();
+                        if(userid.trim().equals(username.trim()) && pass.trim().equals(password.trim())){
+                            login = true;
+                        }
+                    }
+                    x.close();
+                }
+                catch(Exception e){
+                    System.out.println("Login error");
+                }
+                if(login == true)
+                    return true;
+		else
+                    return false;
 	}
 	
 	
-	public void setUser(String username) {
+	public void setUser(String username, String pw) {
 		// Pull and place in local variables all text file info
 		//currentUser = new User(username, password);
 	}
@@ -90,7 +112,7 @@ public class Main extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				if (checkLogin(user_txt.getText(), pass_txt.getText())) {
-					//setUser(user_txt.getText());
+					//setUser(user_txt.getText(), pass_txt.getText());
 					loggedIn = true;
 					primaryStage.setScene(main_scene);
 				}
