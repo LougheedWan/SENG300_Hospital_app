@@ -22,7 +22,6 @@ import javafx.scene.layout.*;
 
 public class Main extends Application {
 	// Instance Variables
-	private static boolean loggedIn = false;
 	//private User currentUser;
 	
 	// Methods
@@ -105,15 +104,16 @@ public class Main extends Application {
 		
 		
 		// Add to group
+		System.out.println("adding children");
 		login.getChildren().addAll(user_txt, pass_txt, login_butt);
 		
 		
 		login_butt.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
+				login.getChildren().remove(error_lbl);
 				if (checkLogin(user_txt.getText(), pass_txt.getText())) {
 					//setUser(user_txt.getText(), pass_txt.getText());
-					loggedIn = true;
 					primaryStage.setScene(main_scene);
 				}
 				else {
@@ -134,9 +134,7 @@ public class Main extends Application {
 		// Canvas
 		primaryStage.setTitle("Hospital Management System");
 		
-		if (loggedIn) {primaryStage.setScene(main_scene); }
-		else {primaryStage.setScene(login_scene);}
-		
+		primaryStage.setScene(login_scene);
 		primaryStage.setResizable(true);
 		primaryStage.show();
 	}
