@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.io.*;
+import java.util.Scanner;
+import java.io.BufferedReader;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -17,10 +19,26 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
+
 public class Main extends Application {
 	// Instance Variables
-	private static boolean logged_in = false;
+	private static boolean loggedIn = false;
+	//private User currentUser;
 	
+	// Methods
+	
+	public boolean checkLogin(String username, String password) {
+		// check file IO for file titled given username
+		// check password if it matches
+		// If matches return true, else return false
+		return false;
+	}
+	
+	
+	public void setUser(String username) {
+		// Pull and place in local variables all text file info
+		//currentUser = new User(username, password);
+	}
 	
 	
 	public static void main(String[] args) {
@@ -31,11 +49,14 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		
-		// 		LOGIN 		//
 		// scenes
 		Group login = new Group();
 		Scene login_scene = new Scene(login, 1280, 720);
 		
+		Group main = new Group();
+		Scene main_scene = new Scene(main, 1280, 720);
+		
+		// 		LOGIN 		//
 		// buttons
 		Button login_butt = new Button("Login");
 		login_butt.setPrefWidth(60);
@@ -53,22 +74,45 @@ public class Main extends Application {
 		pass_txt.setLayoutX(540);
 		pass_txt.setLayoutY(350);
 		
-		// labels
+		// label
+		Label error_lbl = new Label("username or password incorrect");
+		error_lbl.setTextFill(Color.web("#0076a3"));
+		error_lbl.setLayoutX(555);
+		error_lbl.setLayoutY(375);
 		
-		// set position
+		
+		
+		// Add to group
 		login.getChildren().addAll(user_txt, pass_txt, login_butt);
 		
+		
+		login_butt.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				if (checkLogin(user_txt.getText(), pass_txt.getText())) {
+					//setUser(user_txt.getText());
+					loggedIn = true;
+					primaryStage.setScene(main_scene);
+				}
+				else {
+					login.getChildren().add(error_lbl);
+				}
+			}
+		});
+		
+		
+		
+		
+		
+		
 		//		MAIN		//
-		// scenes
-		Group main = new Group();
-		Scene main_scene = new Scene(main, 1280, 720);
 		
 		
 		
 		// Canvas
 		primaryStage.setTitle("Hospital Management System");
 		
-		if (logged_in) {primaryStage.setScene(main_scene); }
+		if (loggedIn) {primaryStage.setScene(main_scene); }
 		else {primaryStage.setScene(login_scene);}
 		
 		primaryStage.setResizable(true);
