@@ -33,6 +33,7 @@ public class Main extends Application {
                 boolean login = false; // boolean used to check if user exists
                 String userid = "";
                 String pass = "";
+                //assigned all usernames to one arraylist and all passwords to another (valid ones)
                 ArrayList<String> un = new ArrayList<String>();
                 ArrayList<String> pw = new ArrayList<String>();
                 Scanner x;
@@ -113,11 +114,15 @@ public class Main extends Application {
 		error_lbl.setLayoutX(555);
 		error_lbl.setLayoutY(375);
 		
+		Label welcome_lbl = new Label("Welcome!");
+		welcome_lbl.setTextFill(Color.web("#0076a3"));
+		welcome_lbl.setLayoutX(555);
+		welcome_lbl.setLayoutY(275);
 		
 		
 		// Add to group
 		//System.out.println("adding children");
-		login.getChildren().addAll(user_txt, pass_txt, login_butt);
+		login.getChildren().addAll(user_txt, pass_txt, login_butt,welcome_lbl);
 		
 		
 		login_butt.setOnAction(new EventHandler<ActionEvent>() {

@@ -1,5 +1,5 @@
 
-public class User {
+public abstract class User {
 	// Instance Variables
 	private String username;
 	private String password;
