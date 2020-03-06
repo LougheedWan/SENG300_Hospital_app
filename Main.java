@@ -33,21 +33,33 @@ public class Main extends Application {
                 boolean login = false; // boolean used to check if user exists
                 String userid = "";
                 String pass = "";
+                ArrayList<String> un = new ArrayList<String>();
+                ArrayList<String> pw = new ArrayList<String>();
                 Scanner x;
                 try{
                     x = new Scanner(new File("users.txt"));
-                    x.useDelimiter("[,\n");
-                    while(x.hasNext() && login == false){
-                        userid = x.next();
-                        pass = x.next();
-                        if(userid.trim().equals(username.trim()) && pass.trim().equals(password.trim())){
-                            login = true;
-                        }
+                   // x.useDelimiter(",");
+                    while(x.hasNextLine()){
+                    	System.out.println("WHILE LOOP WORKING");
+                        String temp = x.next();
+                        String temp2[] = temp.split(",");
+                        un.add(temp2[0]);
+                        pw.add(temp2[1]);
+                       
                     }
+                    for (int count =0; count<un.size(); count++) {
+                    	if(username.equals(un.get(count))) {
+                    		if (password.equals(pw.get(count))){
+                    			login = true;
+                    		}
+                    	}
+                    }
+                    System.out.println(un);
+                    System.out.println(pw);
                     x.close();
                 }
                 catch(Exception e){
-                    System.out.println("Login error");
+                    System.out.println(e);
                 }
                 if(login == true)
                     return true;
@@ -104,7 +116,7 @@ public class Main extends Application {
 		
 		
 		// Add to group
-		System.out.println("adding children");
+		//System.out.println("adding children");
 		login.getChildren().addAll(user_txt, pass_txt, login_butt);
 		
 		
