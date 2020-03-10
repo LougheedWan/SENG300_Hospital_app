@@ -25,7 +25,7 @@ public class Main extends Application {
 	//private User currentUser;
 	
 	// Methods
-	
+	private String current_user;
 	public boolean checkLogin(String username, String password){
 		// check file IO for file titled given username
 		// check password if it matches
@@ -72,6 +72,15 @@ public class Main extends Application {
 	public void setUser(String username, String pw) {
 		// Pull and place in local variables all text file info
 		//currentUser = new User(username, password);
+		
+		try {
+			BufferedReader scan = new BufferedReader(new FileReader(username + ".txt"));
+			current_user = scan.readLine();
+			System.out.println(current_user);
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 	
 	
@@ -90,6 +99,9 @@ public class Main extends Application {
 		Group main = new Group();
 		Scene main_scene = new Scene(main, 1280, 720);
 		
+		Group new_appo = new Group();
+		Scene new_appo_scene = new Scene(new_appo, 1000, 620);
+		
 		// 		LOGIN 		//
 		// buttons
 		Button login_butt = new Button("Login");
@@ -103,7 +115,7 @@ public class Main extends Application {
 		user_txt.setPrefWidth(200);
 		user_txt.setLayoutX(540);
 		user_txt.setLayoutY(320);
-		TextField pass_txt = new TextField("password");
+		PasswordField pass_txt = new PasswordField();
 		pass_txt.setPrefWidth(200);
 		pass_txt.setLayoutX(540);
 		pass_txt.setLayoutY(350);
@@ -125,12 +137,40 @@ public class Main extends Application {
 		login.getChildren().addAll(user_txt, pass_txt, login_butt,welcome_lbl);
 		
 		
+		//		MAIN		//
+		
+		Button new_apo = new Button("book appointment");
+		new_apo.setPrefWidth(100);
+		new_apo.setLayoutX(610);
+		new_apo.setLayoutY(400);
+		new_apo.setStyle("-fx-background-color: Cornsilk");
+		
+		Label name_user = new Label();
+		name_user.setLayoutX(0);
+		name_user.setLayoutY(10);
+		
+		
+		main.getChildren().addAll(new_apo,name_user);
+		
+//		new appointment		//
+		
+		Label appo_title = new Label("BOOK APPOINTMENT");
+		appo_title.setTextFill(Color.web("#0076a3"));
+		appo_title.setLayoutX(0);
+		appo_title.setLayoutY(0);
+		Font font = Font.font(25);
+		appo_title.setFont(font);
+		
+		new_appo.getChildren().addAll(appo_title);
+		
+		
 		login_butt.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				login.getChildren().remove(error_lbl);
 				if (checkLogin(user_txt.getText(), pass_txt.getText())) {
-					//setUser(user_txt.getText(), pass_txt.getText());
+					setUser(user_txt.getText(), pass_txt.getText());
+					name_user.setText("Welcome " + current_user);
 					primaryStage.setScene(main_scene);
 				}
 				else {
@@ -139,13 +179,14 @@ public class Main extends Application {
 			}
 		});
 		
-		
-		
-		
-		
-		
-		//		MAIN		//
-		
+		new_apo.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				primaryStage.setScene(new_appo_scene);
+			}
+			
+		});
 		
 		
 		// Canvas

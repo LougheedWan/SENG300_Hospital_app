@@ -6,5 +6,9 @@ public class Doctor extends User{
 		// TODO Auto-generated constructor stub
 	}
 
+	public static void get_patient_info() {
+		
+	}
+	
 
 }

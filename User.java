@@ -13,7 +13,7 @@ public abstract class User {
 	
 	// Constructor
 	public User(String username, String password) {
-	this.username = username;
+	this .username = username;
 	this.password = password;
 	}
 	
