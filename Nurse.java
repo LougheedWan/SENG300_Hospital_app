@@ -1,8 +1,8 @@
 
 public class Nurse extends User{
 
-	public Nurse(String username, String password) {
-		super(username, password);
+	public Nurse(String name) {
+		super(name);
 		// TODO Auto-generated constructor stub
 	}
 

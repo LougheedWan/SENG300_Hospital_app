@@ -26,6 +26,7 @@ public class Main extends Application {
 	
 	// Methods
 	private String current_user;
+	private String current_type;
 	public boolean checkLogin(String username, String password){
 		// check file IO for file titled given username
 		// check password if it matches
@@ -77,6 +78,22 @@ public class Main extends Application {
 			BufferedReader scan = new BufferedReader(new FileReader(username + ".txt"));
 			current_user = scan.readLine();
 			System.out.println(current_user);
+			current_type = scan.readLine();
+			System.out.println(current_type);
+			
+			//make if statement to determine what object to make
+			
+			if (current_type.equals("Doctor")) {
+				Doctor current = new Doctor(current_user);
+				//from here on, anything that is in the doctor class the current user can do.
+				//we repeat the same thing for all classes below
+			}
+			else if (current_type.equals("Patient")) {
+				Patient current = new Patient(current_user);
+				//patient class methods can be used if object is patient.
+			}
+			
+			scan.close();
 		}
 		catch (Exception e) {
 			System.out.println(e);
@@ -161,7 +178,17 @@ public class Main extends Application {
 		Font font = Font.font(25);
 		appo_title.setFont(font);
 		
-		new_appo.getChildren().addAll(appo_title);
+		Label name = new Label("name");
+		name.setLayoutX(0);
+		name.setLayoutY(30);
+		Font name_font = Font.font(16);
+		name.setFont(name_font);
+		
+		TextField name_input = new TextField("input name");
+		name_input.setLayoutX(0);
+		name_input.setLayoutY(50);
+		
+		new_appo.getChildren().addAll(appo_title, name, name_input);
 		
 		
 		login_butt.setOnAction(new EventHandler<ActionEvent>() {

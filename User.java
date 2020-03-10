@@ -12,9 +12,8 @@ public abstract class User {
 	
 	
 	// Constructor
-	public User(String username, String password) {
-	this .username = username;
-	this.password = password;
+	public User(String name) {
+	this .firstName = name;
 	}
 	
 }
