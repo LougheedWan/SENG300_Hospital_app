@@ -183,7 +183,10 @@ public class Main extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
-				primaryStage.setScene(new_appo_scene);
+				Stage secondStage = new Stage();
+				secondStage.setScene(new_appo_scene);
+				secondStage.setTitle("new appoitment");
+				secondStage.show();
 			}
 			
 		});
