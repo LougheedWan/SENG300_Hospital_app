@@ -5,5 +5,6 @@ public class Patient extends User{
 		super(name);
 		// TODO Auto-generated constructor stub
 	}
+	
 
 }

@@ -13,7 +13,7 @@ public abstract class User {
 	
 	// Constructor
 	public User(String name) {
-	this .firstName = name;
+	this.firstName = name;
 	}
 	
 }

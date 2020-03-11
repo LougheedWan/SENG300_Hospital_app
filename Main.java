@@ -102,6 +102,25 @@ public class Main extends Application {
 		}
 	}
 	
+	public static void base_gui(Group group) {
+		// Header Red Bar
+		Rectangle header_rct = new Rectangle(10.00d,100.00d, 1900.00d, 50.00d);
+		header_rct.setFill(Color.DARKRED);
+		// HMS logo
+		Label logo_lbl = new Label("HMS");
+		logo_lbl.setFont(new Font("Arial", 80));
+		logo_lbl.setLayoutX(30);
+		logo_lbl.setLayoutY(10);
+		// Logged in user
+		Label info1_lbl = new Label("Logged in as");
+		info1_lbl.setFont(new Font("Typewriter", 14));
+		info1_lbl.setLayoutX(240);
+		info1_lbl.setLayoutY(40);
+		
+		
+		
+		group.getChildren().addAll(header_rct,logo_lbl, info1_lbl);
+	}
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -113,11 +132,11 @@ public class Main extends Application {
 		
 		// scenes
 		Group login = new Group();
-		Scene login_scene = new Scene(login, 1280, 720);
-		login_scene.setFill(Color.AQUA);
+		Scene login_scene = new Scene(login, 1920, 1080);
+		login_scene.setFill(Color.GHOSTWHITE);
 		
 		Group main = new Group();
-		Scene main_scene = new Scene(main, 1280, 720);
+		Scene main_scene = new Scene(main, 1920, 1080);
 		
 		Group new_appo = new Group();
 		Scene new_appo_scene = new Scene(new_appo, 1000, 620);
@@ -126,30 +145,32 @@ public class Main extends Application {
 		// buttons
 		Button login_butt = new Button("Login");
 		login_butt.setPrefWidth(60);
-		login_butt.setLayoutX(610);
-		login_butt.setLayoutY(400);
+		login_butt.setLayoutX(930);
+		login_butt.setLayoutY(600);
 		login_butt.setStyle("-fx-background-color: Cornsilk");
 		
 		// textfields
-		TextField user_txt = new TextField("username");
+		TextField user_txt = new TextField();
+		user_txt.setPromptText("username");
 		user_txt.setPrefWidth(200);
-		user_txt.setLayoutX(540);
-		user_txt.setLayoutY(320);
+		user_txt.setLayoutX(860);
+		user_txt.setLayoutY(510);
 		PasswordField pass_txt = new PasswordField();
+		pass_txt.setPromptText("password");
 		pass_txt.setPrefWidth(200);
-		pass_txt.setLayoutX(540);
-		pass_txt.setLayoutY(350);
+		pass_txt.setLayoutX(860);
+		pass_txt.setLayoutY(550);
 		
 		// label
 		Label error_lbl = new Label("username or password incorrect");
 		error_lbl.setTextFill(Color.web("#0076a3"));
-		error_lbl.setLayoutX(555);
-		error_lbl.setLayoutY(375);
+		error_lbl.setLayoutX(860);
+		error_lbl.setLayoutY(575);
 		
 		Label welcome_lbl = new Label("Welcome!");
 		welcome_lbl.setTextFill(Color.BLACK);
-		welcome_lbl.setLayoutX(540);
-		welcome_lbl.setLayoutY(290);
+		welcome_lbl.setLayoutX(860);
+		welcome_lbl.setLayoutY(480);
 		Font font = Font.font(16);
 		welcome_lbl.setFont(font);
 		
@@ -167,11 +188,16 @@ public class Main extends Application {
 		new_apo.setStyle("-fx-background-color: Cornsilk");
 		
 		Label name_user = new Label();
-		name_user.setLayoutX(0);
+		name_user.setLayoutX(500);
 		name_user.setLayoutY(10);
 		
 		
+		base_gui(main);
+		
+
 		main.getChildren().addAll(new_apo,name_user);
+		
+		
 		
 //		new appointment		//
 		
