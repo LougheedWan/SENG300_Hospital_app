@@ -108,18 +108,21 @@ public class Main extends Application {
 		header_rct.setFill(Color.DARKRED);
 		// HMS logo
 		Label logo_lbl = new Label("HMS");
-		logo_lbl.setFont(new Font("Arial", 80));
+		logo_lbl.setFont(new Font("Arial", 110));
 		logo_lbl.setLayoutX(30);
-		logo_lbl.setLayoutY(10);
+		logo_lbl.setLayoutY(-10);
 		// Logged in user
 		Label info1_lbl = new Label("Logged in as");
-		info1_lbl.setFont(new Font("Typewriter", 14));
-		info1_lbl.setLayoutX(240);
-		info1_lbl.setLayoutY(40);
+		info1_lbl.setFont(new Font("Arial", 20));
+		info1_lbl.setLayoutX(290);
+		info1_lbl.setLayoutY(50);
+		Label info2_lbl = new Label("PATIENT:" + "First " + "M " + "Last");
+		info2_lbl.setFont(new Font("Typewriter", 16));
+		info2_lbl.setLayoutX(290);
+		info2_lbl.setLayoutY(73);
 		
 		
-		
-		group.getChildren().addAll(header_rct,logo_lbl, info1_lbl);
+		group.getChildren().addAll(header_rct,logo_lbl, info1_lbl, info2_lbl);
 	}
 	
 	public static void main(String[] args) {
@@ -181,11 +184,7 @@ public class Main extends Application {
 		
 		//		MAIN		//
 		
-		Button new_apo = new Button("book appointment");
-		new_apo.setPrefWidth(100);
-		new_apo.setLayoutX(610);
-		new_apo.setLayoutY(400);
-		new_apo.setStyle("-fx-background-color: Cornsilk");
+;
 		
 		Label name_user = new Label();
 		name_user.setLayoutX(500);
@@ -193,7 +192,12 @@ public class Main extends Application {
 		
 		
 		base_gui(main);
-		
+		// BUTTONS
+		Button new_apo = new Button("book appointment");
+		new_apo.setPrefWidth(100);
+		new_apo.setLayoutX(1700);
+		new_apo.setLayoutY(110);
+		new_apo.setStyle("-fx-background-color: Cornsilk");
 
 		main.getChildren().addAll(new_apo,name_user);
 		
