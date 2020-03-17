@@ -305,7 +305,7 @@ public class Main extends Application {
 		// Canvas
 		primaryStage.setTitle("Hospital Management System");
 		
-		primaryStage.setScene(main_scene);
+		primaryStage.setScene(login_scene);
 		primaryStage.setResizable(true);
 		primaryStage.show();
 	}
