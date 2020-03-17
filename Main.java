@@ -24,6 +24,7 @@ import javafx.scene.layout.*;
 
 public class Main extends Application {
 	// Instance Variables
+	private String current_page;
 	//private User currentUser;
 	
 	// Methods
@@ -102,14 +103,34 @@ public class Main extends Application {
 		}
 	}
 	
+	
+	public static void goto_main(Group group) {
+		// Load background static GUI
+		base_gui(group);
+		// Rectangles
+		Rectangle app1_rct = new Rectangle(40.00d, 200.00d, 400.00d, 600.00d);
+		app1_rct.setFill(Color.GAINSBORO);
+		Rectangle app2_rct = new Rectangle(40.00d, 200.00d, 400.00d, 30.00d);
+		app2_rct.setFill(Color.rgb(160, 0, 0, 0.7));
+		// Labels
+		Label app1_lbl = new Label("Upcoming Appointments");
+		app1_lbl.setLayoutX(100);
+		app1_lbl.setLayoutY(200);
+		app1_lbl.setFont(new Font("Arial", 24));
+		
+		group.getChildren().addAll(app1_rct, app2_rct, app1_lbl);
+	}
+	
+	
+	
 	public static void base_gui(Group group) {
 		// Header Red Bar
-		Rectangle header_rct = new Rectangle(10.00d,100.00d, 1900.00d, 50.00d);
-		header_rct.setFill(Color.DARKRED);
+		Rectangle header_rct = new Rectangle(40.00d,100.00d, 1840.00d, 50.00d);
+		header_rct.setFill(Color.rgb(160, 0, 0));
 		// HMS logo
 		Label logo_lbl = new Label("HMS");
 		logo_lbl.setFont(new Font("Arial", 110));
-		logo_lbl.setLayoutX(30);
+		logo_lbl.setLayoutX(40);
 		logo_lbl.setLayoutY(-10);
 		// Logged in user
 		Label info1_lbl = new Label("Logged in as");
@@ -184,14 +205,17 @@ public class Main extends Application {
 		
 		//		MAIN		//
 		
-;
-		
 		Label name_user = new Label();
 		name_user.setLayoutX(500);
 		name_user.setLayoutY(10);
 		
+		goto_main(main);
 		
-		base_gui(main);
+		
+		
+		
+		
+		
 		// BUTTONS
 		Button new_apo = new Button("book appointment");
 		new_apo.setPrefWidth(100);
@@ -256,6 +280,7 @@ public class Main extends Application {
 					name_user.setText("Welcome " + current_user);
 					Font main_font = Font.font(20);
 					name_user.setFont(main_font);
+					current_page = "main";
 					primaryStage.setScene(main_scene);
 				}
 				else {
@@ -280,7 +305,7 @@ public class Main extends Application {
 		// Canvas
 		primaryStage.setTitle("Hospital Management System");
 		
-		primaryStage.setScene(login_scene);
+		primaryStage.setScene(main_scene);
 		primaryStage.setResizable(true);
 		primaryStage.show();
 	}
