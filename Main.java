@@ -24,12 +24,11 @@ import javafx.scene.layout.*;
 
 public class Main extends Application {
 	// Instance Variables
-	private String current_page;
-	//private User currentUser;
-	
-	// Methods
 	private String current_user;
 	private String current_type;
+	private User current;
+	
+	// Methods
 	public boolean checkLogin(String username, String password){
 		// check file IO for file titled given username
 		// check password if it matches
@@ -77,8 +76,9 @@ public class Main extends Application {
 		// Pull and place in local variables all text file info
 		//currentUser = new User(username, password);
 		
+		
 		try {
-			BufferedReader scan = new BufferedReader(new FileReader(username + ".txt"));
+			BufferedReader scan = new BufferedReader(new FileReader("userdata/" + username + ".txt"));
 			current_user = scan.readLine();
 			System.out.println(current_user);
 			current_type = scan.readLine();
@@ -87,13 +87,19 @@ public class Main extends Application {
 			//make if statement to determine what object to make
 			
 			if (current_type.equals("Doctor")) {
-				Doctor current = new Doctor(current_user);
+				Doctor current = new Doctor(current_user, current_type);
 				//from here on, anything that is in the doctor class the current user can do.
 				//we repeat the same thing for all classes below
-			}
+			} 
 			else if (current_type.equals("Patient")) {
-				Patient current = new Patient(current_user);
+				Patient current = new Patient(current_user, current_type);
 				//patient class methods can be used if object is patient.
+			}
+			else if (current_type.equals("Nurse")) {
+				Nurse current = new Nurse(current_user, current_type);
+			}
+			else if (current_type.equals("Admin")) {
+				Admin current = new Admin(current_user, current_type);
 			}
 			
 			scan.close();
@@ -104,9 +110,7 @@ public class Main extends Application {
 	}
 	
 	
-	public static void goto_main(Group group) {
-		// Load background static GUI
-		base_gui(group);
+	public static void goto_doctor(Group group) {
 		// Rectangles
 		Rectangle app1_rct = new Rectangle(40.00d, 200.00d, 400.00d, 600.00d);
 		app1_rct.setFill(Color.GAINSBORO);
@@ -121,12 +125,29 @@ public class Main extends Application {
 		group.getChildren().addAll(app1_rct, app2_rct, app1_lbl);
 	}
 	
+	public static void goto_nurse(Group group) {
+		System.out.println("NURSE LOADED");
+		//group.getChildren().addAll();
+		}
+	
+	public static void goto_patient(Group group) {
+		System.out.println("PATIENT LOADED");
+		//group.getChildren().addAll();
+		}
+	
+	public static void goto_admin(Group group) {
+		System.out.println("ADMIN LOADED");
+		//group.getChildren().addAll();
+		}
 	
 	
 	public static void base_gui(Group group) {
 		// Header Red Bar
 		Rectangle header_rct = new Rectangle(40.00d,100.00d, 1840.00d, 50.00d);
 		header_rct.setFill(Color.rgb(160, 0, 0));
+		// User Info
+		
+		
 		// HMS logo
 		Label logo_lbl = new Label("HMS");
 		logo_lbl.setFont(new Font("Arial", 110));
@@ -137,7 +158,7 @@ public class Main extends Application {
 		info1_lbl.setFont(new Font("Arial", 20));
 		info1_lbl.setLayoutX(290);
 		info1_lbl.setLayoutY(50);
-		Label info2_lbl = new Label("PATIENT:" + "First " + "M " + "Last");
+		Label info2_lbl = new Label("TYPE" + ": " + "First " + "M " + "Last");
 		info2_lbl.setFont(new Font("Typewriter", 16));
 		info2_lbl.setLayoutX(290);
 		info2_lbl.setLayoutY(73);
@@ -159,8 +180,8 @@ public class Main extends Application {
 		Scene login_scene = new Scene(login, 1920, 1080);
 		login_scene.setFill(Color.GHOSTWHITE);
 		
-		Group main = new Group();
-		Scene main_scene = new Scene(main, 1920, 1080);
+		Group home = new Group();
+		Scene main_scene = new Scene(home, 1920, 1080);
 		
 		Group new_appo = new Group();
 		Scene new_appo_scene = new Scene(new_appo, 1000, 620);
@@ -209,7 +230,7 @@ public class Main extends Application {
 		name_user.setLayoutX(500);
 		name_user.setLayoutY(10);
 		
-		goto_main(main);
+		
 		
 		
 		
@@ -223,7 +244,7 @@ public class Main extends Application {
 		new_apo.setLayoutY(110);
 		new_apo.setStyle("-fx-background-color: Cornsilk");
 
-		main.getChildren().addAll(new_apo,name_user);
+		home.getChildren().addAll(new_apo,name_user);
 		
 		
 		
@@ -271,6 +292,12 @@ public class Main extends Application {
 		new_appo.getChildren().addAll(appo_title, name, name_input, email, email_input, doctor, doc_choose);
 		
 		
+		
+		
+		// BUTTON ACTIONS //
+		
+		
+		// Login
 		login_butt.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -280,8 +307,26 @@ public class Main extends Application {
 					name_user.setText("Welcome " + current_user);
 					Font main_font = Font.font(20);
 					name_user.setFont(main_font);
-					current_page = "main";
 					primaryStage.setScene(main_scene);
+					base_gui(home);
+					
+					
+					// trying to figure this out 
+					/*
+					if (current.getType().equals("Doctor")) {
+						goto_doctor(home);
+					}
+					else if (current.getType().equals("Nurse")) {
+						goto_nurse(home);
+					}
+					else if (current.getType().equals("Patient")) {
+						goto_patient(home);
+					}
+					else if (current.getType().equals("Admin")) {
+						goto_admin(home);
+					}
+					*/
+					
 				}
 				else {
 					login.getChildren().add(error_lbl);
@@ -289,6 +334,7 @@ public class Main extends Application {
 			}
 		});
 		
+		// New Appointmnet
 		new_apo.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
