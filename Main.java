@@ -244,7 +244,6 @@ public class Main extends Application {
 		new_apo.setLayoutY(110);
 		new_apo.setStyle("-fx-background-color: Cornsilk");
 
-		home.getChildren().addAll(new_apo,name_user);
 		
 		
 		
@@ -309,7 +308,7 @@ public class Main extends Application {
 					name_user.setFont(main_font);
 					primaryStage.setScene(main_scene);
 					base_gui(home);
-					
+					home.getChildren().addAll(new_apo,name_user);
 					
 					// trying to figure this out 
 					/*
