@@ -12,15 +12,22 @@ public abstract class User {
 	
 	
 	// Constructor
-	public User(String name, String actor) {
+	public User(String name, String actor, String username) {
 	this.firstName = name;
 	this.actor = actor;
+	this.username = username;
 	
 	}
 	
 	public String getType() {
-		return actor;
+		System.out.println(actor);
+		return this.actor;
 	}
+	
+	public String getUsername() {
+		return this.username;
+	}
+	
 	
 	
 }

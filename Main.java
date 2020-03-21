@@ -1,7 +1,9 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.io.*;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 import java.io.BufferedReader;
 
 import javafx.application.Application;
@@ -9,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -26,7 +29,13 @@ public class Main extends Application {
 	// Instance Variables
 	private String current_user;
 	private String current_type;
-	private User current;
+	public static User current;
+	private Stage secondStage;
+	private static TextField name_input;
+	private static TextField email_input;
+	private static TextArea reason_txt;
+	private static ChoiceBox doc_choose;
+	private static ListView<String> list;
 	
 	// Methods
 	public boolean checkLogin(String username, String password){
@@ -86,20 +95,21 @@ public class Main extends Application {
 			
 			//make if statement to determine what object to make
 			
-			if (current_type.equals("Doctor")) {
-				Doctor current = new Doctor(current_user, current_type);
+			if (current_type.equals("Doctor")) {  
+				current = new Doctor(current_user, current_type, username);
+				
 				//from here on, anything that is in the doctor class the current user can do.
 				//we repeat the same thing for all classes below
 			} 
 			else if (current_type.equals("Patient")) {
-				Patient current = new Patient(current_user, current_type);
+				current = new Patient(current_user, current_type, username);
 				//patient class methods can be used if object is patient.
 			}
 			else if (current_type.equals("Nurse")) {
-				Nurse current = new Nurse(current_user, current_type);
+				current = new Nurse(current_user, current_type, username);
 			}
 			else if (current_type.equals("Admin")) {
-				Admin current = new Admin(current_user, current_type);
+				current = new Admin(current_user, current_type, username);
 			}
 			
 			scan.close();
@@ -109,7 +119,43 @@ public class Main extends Application {
 		}
 	}
 	
+	public static void store_appo_info(String file) {
+		try {
+			FileWriter writer = new FileWriter(file, true);
+			writer.write(current.getUsername());
+			writer.write(name_input.getText());
+			writer.write("\n");
+			writer.write(email_input.getText());
+			writer.write("\n");
+			writer.write((String)doc_choose.getValue());
+			writer.write("\n");
+			writer.write(reason_txt.getText());
+			writer.write("\n");
+			String temp = list.getSelectionModel().getSelectedItems().stream().map(Object::toString).collect(Collectors.joining());
+			writer.write(temp);
+			writer.close();
+			
+			
+		}
+		catch (Exception e) {
+			
+		}
+	}
 	
+	public static String get_doc_txt() {
+		String temp = (String)doc_choose.getValue();
+		System.out.println(temp);
+		if(temp.equals("Bob Ross")) {
+			return "bobross.txt";
+		}
+		else if(temp.equals("Jacky Chan")) {
+			return "jackychan.txt";
+		}
+		else {
+			return " ";
+		}
+		
+	}
 	public static void goto_doctor(Group group) {
 		// Rectangles
 		Rectangle app1_rct = new Rectangle(40.00d, 200.00d, 400.00d, 600.00d);
@@ -167,6 +213,7 @@ public class Main extends Application {
 		group.getChildren().addAll(header_rct,logo_lbl, info1_lbl, info2_lbl);
 	}
 	
+	//Launch program
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -185,6 +232,9 @@ public class Main extends Application {
 		
 		Group new_appo = new Group();
 		Scene new_appo_scene = new Scene(new_appo, 1000, 620);
+		
+		Group times = new Group();
+		Scene times_scene = new Scene(times, 1000, 500);
 		
 		// 		LOGIN 		//
 		// buttons
@@ -262,7 +312,7 @@ public class Main extends Application {
 		Font name_font = Font.font(16);
 		name.setFont(name_font);
 		
-		TextField name_input = new TextField("input name");
+		name_input = new TextField("input name");
 		name_input.setLayoutX(0);
 		name_input.setLayoutY(50);
 		
@@ -272,7 +322,7 @@ public class Main extends Application {
 		Font email_font = Font.font(16);
 		email.setFont(email_font);
 		
-		TextField email_input = new TextField("input email");
+		email_input = new TextField("input email");
 		email_input.setLayoutX(0);
 		email_input.setLayoutY(95);
 		
@@ -281,17 +331,46 @@ public class Main extends Application {
 		doctor.setLayoutY(120);
 		doctor.setFont(email_font);
 		
-		String doc[] = {"Bob Ross", "Chris Lee", "James Bond"};
+		//hard code the names, it should be fine for now
+		String doc[] = {"Bob Ross", "Jacky Chan"};
 		
-		ChoiceBox doc_choose = new ChoiceBox(FXCollections.observableArrayList(doc));
+		doc_choose = new ChoiceBox(FXCollections.observableArrayList(doc));
 		doc_choose.setLayoutX(0);
 		doc_choose.setLayoutY(140);
 		
+		Label reason = new Label("Reason:");
+		reason.setLayoutX(0);
+		reason.setLayoutY(160);
+		reason.setFont(email_font);
 		
-		new_appo.getChildren().addAll(appo_title, name, name_input, email, email_input, doctor, doc_choose);
+		reason_txt = new TextArea();
+		reason_txt.setLayoutX(0);
+		reason_txt.setLayoutY(180);
+		reason.setMaxSize(100, 50);
 		
+		Button view_times = new Button("view available times");
+		view_times.setLayoutX(400);
+		view_times.setLayoutY(500);
 		
+		new_appo.getChildren().addAll(appo_title, name, name_input, email, email_input, doctor, doc_choose, reason, reason_txt, view_times);
 		
+		//view times
+		
+		Label title = new Label("Your doctor has these times avaliable:");
+		title.setLayoutX(0);
+		title.setLayoutY(0);
+		title.setFont(fonts);
+		
+		list = new ListView<String>(Bookings.doc_times);
+		list.setLayoutX(0);
+		list.setLayoutY(40);
+		list.setPrefSize(400, 300);
+		
+		Button confirm_appo = new Button("Confirm");
+		confirm_appo.setLayoutX(500);
+		confirm_appo.setLayoutY(350);
+		
+		times.getChildren().addAll(title,list, confirm_appo);
 		
 		// BUTTON ACTIONS //
 		
@@ -310,8 +389,6 @@ public class Main extends Application {
 					base_gui(home);
 					home.getChildren().addAll(new_apo,name_user);
 					
-					// trying to figure this out 
-					/*
 					if (current.getType().equals("Doctor")) {
 						goto_doctor(home);
 					}
@@ -324,7 +401,7 @@ public class Main extends Application {
 					else if (current.getType().equals("Admin")) {
 						goto_admin(home);
 					}
-					*/
+					
 					
 				}
 				else {
@@ -338,7 +415,7 @@ public class Main extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
-				Stage secondStage = new Stage();
+				secondStage = new Stage();
 				secondStage.setScene(new_appo_scene);
 				secondStage.setTitle("new appoitment");
 				secondStage.show();
@@ -346,6 +423,26 @@ public class Main extends Application {
 			
 		});
 		
+		view_times.setOnAction(new EventHandler<ActionEvent>() {
+			
+			public void handle(ActionEvent event) {
+				Bookings.get_doc_times(get_doc_txt());
+				secondStage.setScene(times_scene);
+				secondStage.setTitle("view times");
+				secondStage.show();
+			}
+		});
+		
+		confirm_appo.setOnAction(new EventHandler<ActionEvent>() {
+			
+			public void handle(ActionEvent event) {
+				store_appo_info("pending.txt");
+				secondStage.close();
+				
+				Alert alert = new Alert(AlertType.INFORMATION, "Thank you, your appointment is now pending.", ButtonType.OK);
+				alert.showAndWait();
+			}
+		});
 		
 		// Canvas
 		primaryStage.setTitle("Hospital Management System");

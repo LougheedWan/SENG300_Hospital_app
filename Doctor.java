@@ -1,8 +1,8 @@
 
 public class Doctor extends User{
 
-	public Doctor(String name, String actor) {
-		super(name, actor);
+	public Doctor(String name, String actor, String username) {
+		super(name, actor, username);
 		// TODO Auto-generated constructor stub
 	}
 
