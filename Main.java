@@ -133,6 +133,7 @@ public class Main extends Application {
 			writer.write("\n");
 			String temp = list.getSelectionModel().getSelectedItems().stream().map(Object::toString).collect(Collectors.joining());
 			writer.write(temp);
+			writer.write("\n");
 			writer.close();
 			
 			
@@ -294,8 +295,11 @@ public class Main extends Application {
 		new_apo.setLayoutY(110);
 		new_apo.setStyle("-fx-background-color: Cornsilk");
 
-		
-		
+		Button var_apo = new Button("verify appointment");
+		var_apo.setPrefWidth(100);
+		var_apo.setLayoutX(1700);
+		var_apo.setLayoutY(300);
+		var_apo.setStyle("-fx-background-color: Cornsilk");
 		
 //		new appointment		//
 		
@@ -387,7 +391,7 @@ public class Main extends Application {
 					name_user.setFont(main_font);
 					primaryStage.setScene(main_scene);
 					base_gui(home);
-					home.getChildren().addAll(new_apo,name_user);
+					home.getChildren().addAll(new_apo,name_user,var_apo);
 					
 					if (current.getType().equals("Doctor")) {
 						goto_doctor(home);

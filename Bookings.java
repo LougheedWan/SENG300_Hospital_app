@@ -10,7 +10,7 @@ import javafx.collections.ObservableList;
 public class Bookings {
 
 	public static ObservableList<String> doc_times = FXCollections.observableArrayList();
-	public static void get_appo_info(String file) {
+	public static void verify_appo(String file) {
 		
 		
 	}
