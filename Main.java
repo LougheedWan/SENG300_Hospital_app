@@ -35,6 +35,12 @@ public class Main extends Application {
 	private static TextField name_input;
 	private static TextField email_input;
 	private static TextField name1_input;
+	private static TextField address_input;
+	private static TextField number_input;
+	private static TextField email_1_input;
+	private static TextField dob_input;
+	private static ComboBox gender_combobox;
+	private static TextArea additional_info;
 	private static TextArea reason_txt;
 	private static ChoiceBox doc_choose;
 	private static ListView<String> list;
@@ -319,25 +325,98 @@ public class Main extends Application {
 
 		// personal information button
 		Button info = new Button("personal information");
-		info.setPrefWidth(100);
-		info.setLayoutX(600);
-		info.setLayoutY(100);
-		info.setWrapText(true);
+		info.setPrefWidth(200);
+		info.setLayoutX(1000);
+		info.setLayoutY(110);
 		info.setStyle("-fx-background-color: Cornsilk");
 
 // add personal information //
+	// name
 	Label name_1 = new Label("Name");
-	name_1.setLayoutX(0);
+	name_1.setLayoutX(20);
 	name_1.setLayoutY(30);
 	Font name_1_font = Font.font(16);
 	name_1.setFont(name_1_font);
 
 	name1_input = new TextField("Name");
-	name1_input.setLayoutX(0);
+	name1_input.setPrefWidth(250);
+	name1_input.setLayoutX(20);
 	name1_input.setLayoutY(50);
 
+	// address
+	Label address = new Label("Address");
+	address.setLayoutX(20);
+	address.setLayoutY(80);
+	Font address_font = Font.font(16);
+	address.setFont(address_font);
 
-	pinfo.getChildren().addAll(name_1, name1_input);
+	address_input = new TextField("Address");
+	address_input.setPrefWidth(250);
+	address_input.setLayoutX(20);
+	address_input.setLayoutY(100);
+
+	// contact no.
+	Label number = new Label("Contact No.");
+	number.setLayoutX(20);
+	number.setLayoutY(130);
+	Font number_font = Font.font(16);
+	number.setFont(number_font);
+
+	number_input = new TextField("Contact No.");
+	number_input.setPrefWidth(250);
+	number_input.setLayoutX(20);
+	number_input.setLayoutY(150);
+
+	// email
+	Label email_1 = new Label("Email");
+	email_1.setLayoutX(20);
+	email_1.setLayoutY(180);
+	Font email_1_font = Font.font(16);
+	email_1.setFont(email_1_font);
+
+	email_1_input = new TextField("Email");
+	email_1_input.setPrefWidth(250);
+	email_1_input.setLayoutX(20);
+	email_1_input.setLayoutY(200);
+
+	// DOB
+	Label dob = new Label("Date of Birth");
+	dob.setLayoutX(20);
+	dob.setLayoutY(230);
+	Font dob_font = Font.font(16);
+	dob.setFont(dob_font);
+
+	dob_input = new TextField("MM/DD/YYYY");
+	dob_input.setPrefWidth(250);
+	dob_input.setLayoutX(20);
+	dob_input.setLayoutY(250);
+
+	// gender
+	Label gender = new Label("Gender");
+	gender.setLayoutX(20);
+	gender.setLayoutY(280);
+	Font gender_font = Font.font(16);
+	gender.setFont(gender_font);
+
+	String gender_c[] = {"Male", "Female", "Other", "Prefer not to say"};
+	ComboBox gender_combobox = new ComboBox(FXCollections.observableArrayList(gender_c));
+	gender_combobox.setLayoutX(20);
+	gender_combobox.setLayoutY(300);
+
+	// additional information
+	Label ainfo = new Label("Additional information");
+	ainfo.setLayoutX(20);
+	ainfo.setLayoutY(330);
+	Font ainfo_font = Font.font(16);
+	ainfo.setFont(ainfo_font);
+
+	additional_info = new TextArea();
+	additional_info.setLayoutX(20);
+	additional_info.setLayoutY(350);
+	additional_info.setMinSize(200, 200);
+
+
+	pinfo.getChildren().addAll(name_1, name1_input, address, address_input, number, number_input, email_1, email_1_input, dob, dob_input, gender, gender_combobox, ainfo, additional_info);
 
 
 //		new appointment		//
