@@ -1,10 +1,21 @@
-adminBob
-Bob@Bob.ca
+---
 Bob Ross
-I like Bob Ross
+user
+lougheed
+lougheed.wan@ucalgary.ca
+Bob Ross is my spirit animal
 Tuesday
-adminAlexis
-slee
+---
 Jacky Chan
-broken leg
-Saturday
+user
+lougheed
+lougheed.wan@ucalgary.ca
+OWWW
+Sunday
+---
+Bob Ross
+user
+lougheed
+lougheed.wan@ucalgary.ca
+OWWW.2
+Tuesday

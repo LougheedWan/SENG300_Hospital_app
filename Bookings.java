@@ -10,10 +10,59 @@ import javafx.collections.ObservableList;
 public class Bookings {
 
 	public static ObservableList<String> doc_times = FXCollections.observableArrayList();
+	public static ArrayList<String> temp_store = new ArrayList<String>();
+	public static ObservableList<String> temp_names = FXCollections.observableArrayList();
 	public static void verify_appo(String file) {
+		try {
+			Scanner search = new Scanner(new File(file));
+			String doc = Main.current.getName();
+			int current_appo = 0;
+			while (search.hasNext()) {
+				if (search.nextLine().equals("---")) {
+					
+					current_appo++;
+					if (search.nextLine().equals(doc)) {
+						temp_store.add(Integer.toString(current_appo));
+					}
+				}
+			}
+			search.close();
+			System.out.println(temp_store);
+		}
+		catch (Exception e) {
+			
+		}
+		
 		
 		
 	}
+	
+	public static void get_verify_info() {
+		try {
+			Scanner search  = new Scanner(new File("pending.txt"));
+			int count = 0;
+			while (search.hasNext()) {
+				if (search.nextLine().equals("---")) {
+					
+					count++;
+					
+				if (temp_store.contains(Integer.toString(count))) {
+					search.nextLine();
+					search.nextLine();
+					temp_names.add(search.nextLine());
+				}
+					
+				}
+			}
+		}
+		catch (Exception e) {
+			
+		}
+		
+		
+	}
+	
+	
 	
 	public static void get_doc_times(String d) {
 		

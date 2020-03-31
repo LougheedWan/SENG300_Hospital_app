@@ -10,6 +10,7 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.event.ActionEvent;
@@ -32,6 +33,7 @@ public class Main extends Application {
 	public static User current;
 	private Stage secondStage;
 	private Stage newStage;
+	private Stage thirdStage;
 	private static TextField name_input;
 	private static TextField email_input;
 	private static TextField name1_input;
@@ -130,12 +132,15 @@ public class Main extends Application {
 	public static void store_appo_info(String file) {
 		try {
 			FileWriter writer = new FileWriter(file, true);
+			writer.write("---");
+			writer.write("\n");
+			writer.write((String)doc_choose.getValue());
+			writer.write("\n");
 			writer.write(current.getUsername());
+			writer.write("\n");
 			writer.write(name_input.getText());
 			writer.write("\n");
 			writer.write(email_input.getText());
-			writer.write("\n");
-			writer.write((String)doc_choose.getValue());
 			writer.write("\n");
 			writer.write(reason_txt.getText());
 			writer.write("\n");
@@ -258,6 +263,9 @@ public class Main extends Application {
 
 		Group pinfo = new Group();
 		Scene pinfo_scene = new Scene(pinfo, 1000, 620);
+		
+		Group var_appo = new Group();
+		Scene var_appo_scene = new Scene(var_appo, 1000, 500);
 
 		// 		LOGIN 		//
 		// buttons
@@ -493,7 +501,24 @@ public class Main extends Application {
 		confirm_appo.setLayoutY(350);
 
 		times.getChildren().addAll(title,list, confirm_appo);
+		
+		//verify appo//
+		
+		Label ver_title = new Label("here are your pending appoitnments");
+		ver_title.setLayoutX(0);
+		ver_title.setLayoutY(0);
+		ver_title.setFont(fonts);
+		
+		ListView ver_list = new ListView<String>(Bookings.temp_names);
+		ver_list.setLayoutX(0);
+		ver_list.setLayoutY(100);
+		ver_list.setPrefSize(400, 300);
+		
+		Button ver_view = new Button("view details");
+		ver_view.setLayoutX(500);
+		ver_view.setLayoutY(400);
 
+		var_appo.getChildren().addAll(ver_title, ver_list, ver_view);
 		// BUTTON ACTIONS //
 
 
@@ -560,6 +585,12 @@ public class Main extends Application {
 			public void handle(ActionEvent event) {
 				store_appo_info("pending.txt");
 				secondStage.close();
+				secondStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+					
+					public void handle(WindowEvent we) {
+						Bookings.doc_times.clear();
+					}
+				});
 
 				Alert alert = new Alert(AlertType.INFORMATION, "Thank you, your appointment is now pending.", ButtonType.OK);
 				alert.showAndWait();
@@ -575,6 +606,28 @@ public class Main extends Application {
 				newStage.show();
 			}
 		});
+		
+		var_apo.setOnAction(new EventHandler<ActionEvent>() {
+			
+			public void handle(ActionEvent event) {
+				Bookings.verify_appo("pending.txt");
+				Bookings.get_verify_info();
+				thirdStage = new Stage();
+				thirdStage.setScene(var_appo_scene);
+				thirdStage.setTitle("verify appoitments");
+				thirdStage.show();
+				thirdStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+					
+					public void handle(WindowEvent we) {
+						Bookings.temp_store.clear();
+					}
+				});
+				
+				
+			}
+		});
+		
+		
 
 		// Canvas
 		primaryStage.setTitle("Hospital Management System");
