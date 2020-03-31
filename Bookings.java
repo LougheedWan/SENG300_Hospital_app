@@ -12,6 +12,7 @@ public class Bookings {
 	public static ObservableList<String> doc_times = FXCollections.observableArrayList();
 	public static ArrayList<String> temp_store = new ArrayList<String>();
 	public static ObservableList<String> temp_names = FXCollections.observableArrayList();
+	public static ArrayList<String> temp_info = new ArrayList<String>();
 	public static void verify_appo(String file) {
 		try {
 			Scanner search = new Scanner(new File(file));
@@ -59,6 +60,34 @@ public class Bookings {
 			
 		}
 		
+		
+	}
+	
+	public static void confirm_verify_info() {
+		int current_appo = Main.ver_list.getSelectionModel().getSelectedIndex();
+		String current_id = temp_store.get(current_appo);
+		System.out.println(current_appo);
+		int count =0;
+		try {
+			Scanner search = new Scanner(new File("pending.txt"));
+			while (search.hasNext()) {
+				if (search.nextLine().equals("---")) {
+					count++;
+				}
+				if (count == Integer.parseInt(current_id)) {
+					search.nextLine();
+					temp_info.add(search.nextLine());
+					temp_info.add(search.nextLine());
+					temp_info.add(search.nextLine());
+					temp_info.add(search.nextLine());
+					temp_info.add(search.nextLine());
+				}
+			}
+			System.out.println(temp_info);
+		}
+		catch (Exception e) {
+			
+		}
 		
 	}
 	

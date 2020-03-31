@@ -46,6 +46,8 @@ public class Main extends Application {
 	private static TextArea reason_txt;
 	private static ChoiceBox doc_choose;
 	private static ListView<String> list;
+	public static ListView<String> ver_list;
+	
 
 	// Methods
 	public boolean checkLogin(String username, String password){
@@ -266,6 +268,9 @@ public class Main extends Application {
 		
 		Group var_appo = new Group();
 		Scene var_appo_scene = new Scene(var_appo, 1000, 500);
+		
+		Group var_details = new Group();
+		Scene var_details_scene = new Scene(var_details, 500, 400);
 
 		// 		LOGIN 		//
 		// buttons
@@ -509,7 +514,7 @@ public class Main extends Application {
 		ver_title.setLayoutY(0);
 		ver_title.setFont(fonts);
 		
-		ListView ver_list = new ListView<String>(Bookings.temp_names);
+		ver_list = new ListView<String>(Bookings.temp_names);
 		ver_list.setLayoutX(0);
 		ver_list.setLayoutY(100);
 		ver_list.setPrefSize(400, 300);
@@ -519,6 +524,18 @@ public class Main extends Application {
 		ver_view.setLayoutY(400);
 
 		var_appo.getChildren().addAll(ver_title, ver_list, ver_view);
+		
+		//verify appo second scene//
+	
+		Label ver_name = new Label();
+		Label ver_email = new Label();
+		Label ver_reason = new Label();
+		Label ver_time = new Label();
+		Button ver_confirm = new Button ("confirm this patient");
+		ver_confirm.setLayoutX(100);
+		ver_confirm.setLayoutY(100);
+		
+		var_details.getChildren().addAll(ver_name, ver_email, ver_reason, ver_time, ver_confirm);
 		// BUTTON ACTIONS //
 
 
@@ -620,10 +637,68 @@ public class Main extends Application {
 					
 					public void handle(WindowEvent we) {
 						Bookings.temp_store.clear();
+						Bookings.temp_names.clear();
 					}
 				});
 				
 				
+			}
+		});
+		
+		ver_view.setOnAction(new EventHandler<ActionEvent>() {
+			
+			public void handle(ActionEvent event) {
+				Bookings.confirm_verify_info();
+				ver_name.setText("Name: " + Bookings.temp_info.get(1));
+				ver_name.setLayoutX(0);
+				ver_name.setLayoutY(0);
+				Font ver_font = Font.font(14);
+				ver_name.setFont(ver_font);
+				
+				ver_email.setText("Email: " + Bookings.temp_info.get(2));
+				ver_email.setLayoutX(0);
+				ver_email.setLayoutY(20);
+				ver_email.setFont(ver_font);
+				
+				ver_reason.setText("Reason: " + Bookings.temp_info.get(3));
+				ver_reason.setLayoutX(0);
+				ver_reason.setLayoutY(40);
+				ver_reason.setFont(ver_font);
+				
+				
+				ver_time.setText("Time: " + Bookings.temp_info.get(4));
+				ver_time.setLayoutX(0);
+				ver_time.setLayoutY(60);
+				ver_time.setFont(ver_font);
+				
+				
+				
+				
+				thirdStage.setScene(var_details_scene);
+				thirdStage.setTitle("view details");
+				thirdStage.show();
+				
+				thirdStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+					
+					public void handle(WindowEvent we) {
+						Bookings.temp_names.clear();
+						Bookings.temp_store.clear();
+						Bookings.temp_info.clear();
+					}
+				});
+			}
+		});
+		
+		//will work on this more do not touch -lougheed
+		ver_confirm.setOnAction(new EventHandler<ActionEvent>() {
+			
+			public void handle(ActionEvent event) {
+				thirdStage.close();
+				Bookings.temp_names.clear();
+				Bookings.temp_store.clear();
+				Bookings.temp_info.clear();
+				Alert alert = new Alert(AlertType.INFORMATION, "Thank you, your appoitment is now confirmed.", ButtonType.OK);
+				alert.showAndWait();
 			}
 		});
 		
