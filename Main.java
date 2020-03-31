@@ -184,7 +184,7 @@ public class Main extends Application {
 		app2_rct_pa.setFill(Color.rgb(160, 0, 0, 0.7));
 		// Labels - patients list
 		Label app1_lbl_pa = new Label("My Patients");
-		app1_lbl_pa.setLayoutX(1170);
+		app1_lbl_pa.setLayoutX(1135);
 		app1_lbl_pa.setLayoutY(200);
 		app1_lbl_pa.setFont(new Font("Arial", 24));
 
@@ -231,6 +231,31 @@ public class Main extends Application {
 
 
 		group.getChildren().addAll(header_rct,logo_lbl, info1_lbl, info2_lbl);
+	}
+
+	// save personal information to a specified user's file
+	public static void str_personal(String file1) {
+		try {
+			System.out.println("saving personal information");
+			FileWriter writer_1 = new FileWriter(file1, true);
+			writer_1.write(name1_input.getText());
+			writer_1.write("\n");
+			writer_1.write(number_input.getText());
+			writer_1.write("\n");
+			writer_1.write(email_1_input.getText());
+			writer_1.write("\n");
+			writer_1.write(dob_input.getText());
+			writer_1.write("\n");
+			writer_1.write((String)gender_combobox.getValue());
+			writer_1.write("\n");
+			writer_1.write(additional_info.getText());
+			writer_1.write("\n");
+			System.out.println("saved personal information");
+			writer_1.close();
+		}
+		catch (Exception e) {
+
+		}
 	}
 
 	//Launch program
@@ -415,8 +440,14 @@ public class Main extends Application {
 	additional_info.setLayoutY(350);
 	additional_info.setMinSize(200, 200);
 
+	// save personal information button
+	Button info_save = new Button("Save");
+	info_save.setPrefWidth(100);
+	info_save.setLayoutX(500);
+	info_save.setLayoutY(450);
+	info_save.setStyle("-fx-background-color: Cornsilk");
 
-	pinfo.getChildren().addAll(name_1, name1_input, address, address_input, number, number_input, email_1, email_1_input, dob, dob_input, gender, gender_combobox, ainfo, additional_info);
+	pinfo.getChildren().addAll(name_1, name1_input, address, address_input, number, number_input, email_1, email_1_input, dob, dob_input, gender, gender_combobox, ainfo, additional_info, info_save);
 
 
 //		new appointment		//
@@ -573,6 +604,24 @@ public class Main extends Application {
 				newStage.setScene(pinfo_scene);
 				newStage.setTitle("Personal Information");
 				newStage.show();
+			}
+		});
+
+		info_save.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				//switch(current_user) {
+					//case "Tom Hanks":
+						str_personal("tomhanks.txt");
+						//break;
+					//case "Bob Ross":
+						//str_personal("bobross.txt");
+				//}
+
+				newStage.close();
+
+				Alert alert_save = new Alert(AlertType.INFORMATION, "Your information has been successfully saved.", ButtonType.OK);
+				alert_save.showAndWait();
 			}
 		});
 
