@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -13,6 +14,7 @@ public class Bookings {
 	public static ArrayList<String> temp_store = new ArrayList<String>();
 	public static ObservableList<String> temp_names = FXCollections.observableArrayList();
 	public static ArrayList<String> temp_info = new ArrayList<String>();
+	public static String current_id;
 	public static void verify_appo(String file) {
 		try {
 			Scanner search = new Scanner(new File(file));
@@ -65,7 +67,7 @@ public class Bookings {
 	
 	public static void confirm_verify_info() {
 		int current_appo = Main.ver_list.getSelectionModel().getSelectedIndex();
-		String current_id = temp_store.get(current_appo);
+		current_id = temp_store.get(current_appo);
 		System.out.println(current_appo);
 		int count =0;
 		try {
@@ -75,7 +77,7 @@ public class Bookings {
 					count++;
 				}
 				if (count == Integer.parseInt(current_id)) {
-					search.nextLine();
+					temp_info.add(search.nextLine());
 					temp_info.add(search.nextLine());
 					temp_info.add(search.nextLine());
 					temp_info.add(search.nextLine());
@@ -124,5 +126,31 @@ public class Bookings {
 		catch (Exception e){
 			
 		}
+	}
+	
+	public static void move_appo_data(String d)  {
+		String file = "userdata/" + d;
+		try {
+			FileWriter n = new FileWriter(file, true);
+			n.write("\n");
+			n.write("---");
+			n.write("\n");
+			n.write(temp_info.get(0));
+			n.write("\n");
+			n.write(temp_info.get(2));
+			n.write("\n");
+			n.write(temp_info.get(3));
+			n.write("\n");
+			n.write(temp_info.get(4));
+			n.write("\n");
+			n.write(temp_info.get(5));
+			n.write("\n");
+			n.close();
+		}
+		catch(Exception e) {
+			
+		}
+	
+		
 	}
 }

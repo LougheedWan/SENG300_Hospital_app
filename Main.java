@@ -649,24 +649,24 @@ public class Main extends Application {
 			
 			public void handle(ActionEvent event) {
 				Bookings.confirm_verify_info();
-				ver_name.setText("Name: " + Bookings.temp_info.get(1));
+				ver_name.setText("Name: " + Bookings.temp_info.get(2));
 				ver_name.setLayoutX(0);
 				ver_name.setLayoutY(0);
 				Font ver_font = Font.font(14);
 				ver_name.setFont(ver_font);
 				
-				ver_email.setText("Email: " + Bookings.temp_info.get(2));
+				ver_email.setText("Email: " + Bookings.temp_info.get(3));
 				ver_email.setLayoutX(0);
 				ver_email.setLayoutY(20);
 				ver_email.setFont(ver_font);
 				
-				ver_reason.setText("Reason: " + Bookings.temp_info.get(3));
+				ver_reason.setText("Reason: " + Bookings.temp_info.get(4));
 				ver_reason.setLayoutX(0);
 				ver_reason.setLayoutY(40);
 				ver_reason.setFont(ver_font);
 				
 				
-				ver_time.setText("Time: " + Bookings.temp_info.get(4));
+				ver_time.setText("Time: " + Bookings.temp_info.get(5));
 				ver_time.setLayoutX(0);
 				ver_time.setLayoutY(60);
 				ver_time.setFont(ver_font);
@@ -694,6 +694,9 @@ public class Main extends Application {
 			
 			public void handle(ActionEvent event) {
 				thirdStage.close();
+				Bookings.move_appo_data(Bookings.temp_info.get(1) + ".txt");
+				Bookings.move_appo_data(current.getUsername() + ".txt");
+				System.out.println(Bookings.temp_info.get(1));
 				Bookings.temp_names.clear();
 				Bookings.temp_store.clear();
 				Bookings.temp_info.clear();
