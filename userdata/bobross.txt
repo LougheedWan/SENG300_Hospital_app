@@ -2,3 +2,7 @@ Bob Ross
 Doctor
 times
 Monday,Tuesday
+Bob Ross
+403-111-123
+yougotpaint@bob.com
+09/30/1950
