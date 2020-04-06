@@ -235,10 +235,10 @@ public class Main extends Application {
 
 	// save personal information to a specified user's file
 	public static void str_personal(String file1) {
-		try {
-			System.out.println("saving personal information");
-			FileWriter writer_1 = new FileWriter(file1, true);
+		try (BufferedWriter writer_1 = new BufferedWriter(new FileWriter(file1, true))){
 			writer_1.write(name1_input.getText());
+			writer_1.write("\n");
+			writer_1.write(address_input.getText());
 			writer_1.write("\n");
 			writer_1.write(number_input.getText());
 			writer_1.write("\n");
@@ -246,11 +246,12 @@ public class Main extends Application {
 			writer_1.write("\n");
 			writer_1.write(dob_input.getText());
 			writer_1.write("\n");
+			//gender_combobox doesn't work
 			writer_1.write((String)gender_combobox.getValue());
 			writer_1.write("\n");
+			//additional_info doesn't work
 			writer_1.write(additional_info.getText());
 			writer_1.write("\n");
-			System.out.println("saved personal information");
 			writer_1.close();
 		}
 		catch (Exception e) {
@@ -610,13 +611,23 @@ public class Main extends Application {
 		info_save.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
-				//switch(current_user) {
-					//case "Tom Hanks":
-						str_personal("tomhanks.txt");
-						//break;
-					//case "Bob Ross":
-						//str_personal("bobross.txt");
-				//}
+				switch(current_user) {
+					case "Tom Hanks":
+						str_personal("userdata/tomhanks.txt");
+						break;
+					case "Bob Ross":
+						str_personal("userdata/bobross.txt");
+						break;
+					case "Jack Chan":
+						str_personal("userdata/jackchan.txt");
+						break;
+					case "Tom Cruise":
+						str_personal("userdata/tomcruise.txt");
+						break;
+					case "Ryan Roady":
+						str_personal("userdata/user.txt");
+						break;
+				}
 
 				newStage.close();
 
