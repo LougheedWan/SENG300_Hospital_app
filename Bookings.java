@@ -1,7 +1,11 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -57,6 +61,7 @@ public class Bookings {
 					
 				}
 			}
+			search.close();
 		}
 		catch (Exception e) {
 			
@@ -86,6 +91,7 @@ public class Bookings {
 				}
 			}
 			System.out.println(temp_info);
+			search.close();
 		}
 		catch (Exception e) {
 			
@@ -121,7 +127,7 @@ public class Bookings {
 					check = true;
 				}
 			}
-			
+			input.close();
 		}
 		catch (Exception e){
 			
@@ -152,5 +158,38 @@ public class Bookings {
 		}
 	
 		
+	}
+	public static void remove_pending() {
+		File temp = new File("pendingtemp.txt");
+		File inputfile = new File("pending.txt");
+		String currentLine;
+		int count =0;
+		try {
+			BufferedReader input = new BufferedReader (new FileReader(inputfile));
+			BufferedWriter output = new BufferedWriter(new FileWriter(temp));
+			
+			while ((currentLine = input.readLine()) != null){
+				if (currentLine.equals("---")) {
+					count++;
+				}
+				if (count == Integer.parseInt(current_id)) {
+					
+				}
+				else {
+					output.write(currentLine);
+					output.write("\n");
+				}
+			}
+			input.close();
+			output.close();
+			System.gc();
+			Path path = Paths.get(inputfile.getAbsolutePath());
+			Files.delete(path);
+			boolean sucess = temp.renameTo(inputfile);
+			System.out.println(sucess);
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 }

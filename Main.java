@@ -728,6 +728,7 @@ public class Main extends Application {
 				thirdStage.close();
 				Bookings.move_appo_data(Bookings.temp_info.get(1) + ".txt");
 				Bookings.move_appo_data(current.getUsername() + ".txt");
+				Bookings.remove_pending();
 				System.out.println(Bookings.temp_info.get(1));
 				Bookings.temp_names.clear();
 				Bookings.temp_store.clear();
