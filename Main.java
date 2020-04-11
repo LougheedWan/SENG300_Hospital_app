@@ -34,7 +34,6 @@ public class Main extends Application {
 	private Stage secondStage;
 	private Stage newStage;
 	private Stage thirdStage;
-	private static Stage Currystage;
 	private static TextField name_input;
 	private static TextField email_input;
 	private static TextField name1_input;
@@ -48,7 +47,7 @@ public class Main extends Application {
 	private static ChoiceBox doc_choose;
 	private static ListView<String> list;
 	public static ListView<String> ver_list;
-
+	
 
 	// Methods
 	public boolean checkLogin(String username, String password){
@@ -174,9 +173,6 @@ public class Main extends Application {
 
 	}
 	public static void goto_doctor(Group group) {
-		Group c_stephen = new Group();
-		Scene curry_scene = new Scene(c_stephen, 1000, 500);
-
 		// Rectangles
 		Rectangle app1_rct = new Rectangle(40.00d, 200.00d, 400.00d, 600.00d);
 		app1_rct.setFill(Color.GAINSBORO);
@@ -195,42 +191,11 @@ public class Main extends Application {
 		app2_rct_pa.setFill(Color.rgb(160, 0, 0, 0.7));
 		// Labels - patients list
 		Label app1_lbl_pa = new Label("My Patients");
-		app1_lbl_pa.setLayoutX(1130);
+		app1_lbl_pa.setLayoutX(1135);
 		app1_lbl_pa.setLayoutY(200);
 		app1_lbl_pa.setFont(new Font("Arial", 24));
 
-		// Button - patient Stephen Curry
-		Button stephen = new Button("Curry, Stephen");
-		stephen.setPrefWidth(200);
-		stephen.setLayoutX(1100);
-		stephen.setLayoutY(300);
-		stephen.setStyle("-fx-background-color: Honeydew");
-
-		group.getChildren().addAll(app1_rct, app2_rct, app1_lbl, app1_rct_pa, app2_rct_pa, app1_lbl_pa, stephen);
-
-		//referrals for patients//
-		Label lab_test = new Label("Refer for the following test(s):");
-		lab_test.setLayoutX(30);
-		lab_test.setLayoutY(30);
-		Font lab_test_font = Font.font(16);
-		lab_test.setFont(lab_test_font);
-
-		Rectangle tests = new Rectangle(30.00d, 55.00d, 940.00d, 200.00d);
-		tests.setFill(Color.TRANSPARENT);
-		tests.setStroke(Color.BLACK);
-
-		c_stephen.getChildren().addAll(lab_test,tests);
-
-		// Stephen Curry info window
-		stephen.setOnAction(new EventHandler<ActionEvent>() {
-
-			public void handle(ActionEvent event) {
-				Currystage = new Stage();
-				Currystage.setScene(curry_scene);
-				Currystage.setTitle("Curry, Stephen: patient information");
-				Currystage.show();
-			}
-		});
+		group.getChildren().addAll(app1_rct, app2_rct, app1_lbl, app1_rct_pa, app2_rct_pa, app1_lbl_pa);
 	}
 
 	public static void goto_nurse(Group group) {
@@ -326,15 +291,12 @@ public class Main extends Application {
 
 		Group pinfo = new Group();
 		Scene pinfo_scene = new Scene(pinfo, 1000, 620);
-
+		
 		Group var_appo = new Group();
 		Scene var_appo_scene = new Scene(var_appo, 1000, 500);
-
+		
 		Group var_details = new Group();
 		Scene var_details_scene = new Scene(var_details, 500, 400);
-
-		//Group c_stephen = new Group();
-		//Scene curry_scene = new Scene(c_stephen, 1000, 500);
 
 		// 		LOGIN 		//
 		// buttons
@@ -576,27 +538,27 @@ public class Main extends Application {
 		confirm_appo.setLayoutY(350);
 
 		times.getChildren().addAll(title,list, confirm_appo);
-
+		
 		//verify appo//
-
+		
 		Label ver_title = new Label("here are your pending appoitnments");
 		ver_title.setLayoutX(0);
 		ver_title.setLayoutY(0);
 		ver_title.setFont(fonts);
-
+		
 		ver_list = new ListView<String>(Bookings.temp_names);
 		ver_list.setLayoutX(0);
 		ver_list.setLayoutY(100);
 		ver_list.setPrefSize(400, 300);
-
+		
 		Button ver_view = new Button("view details");
 		ver_view.setLayoutX(500);
 		ver_view.setLayoutY(400);
 
 		var_appo.getChildren().addAll(ver_title, ver_list, ver_view);
-
+		
 		//verify appo second scene//
-
+	
 		Label ver_name = new Label();
 		Label ver_email = new Label();
 		Label ver_reason = new Label();
@@ -604,9 +566,8 @@ public class Main extends Application {
 		Button ver_confirm = new Button ("confirm this patient");
 		ver_confirm.setLayoutX(100);
 		ver_confirm.setLayoutY(100);
-
+		
 		var_details.getChildren().addAll(ver_name, ver_email, ver_reason, ver_time, ver_confirm);
-
 		// BUTTON ACTIONS //
 
 
@@ -652,7 +613,7 @@ public class Main extends Application {
 				// TODO Auto-generated method stub
 				secondStage = new Stage();
 				secondStage.setScene(new_appo_scene);
-				secondStage.setTitle("new appointment");
+				secondStage.setTitle("new appoitment");
 				secondStage.show();
 			}
 
@@ -674,7 +635,7 @@ public class Main extends Application {
 				store_appo_info("pending.txt");
 				secondStage.close();
 				secondStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-
+					
 					public void handle(WindowEvent we) {
 						Bookings.doc_times.clear();
 					}
@@ -694,9 +655,9 @@ public class Main extends Application {
 				newStage.show();
 			}
 		});
-
+		
 		var_apo.setOnAction(new EventHandler<ActionEvent>() {
-
+			
 			public void handle(ActionEvent event) {
 				Bookings.verify_appo("pending.txt");
 				Bookings.get_verify_info();
@@ -705,19 +666,19 @@ public class Main extends Application {
 				thirdStage.setTitle("verify appoitments");
 				thirdStage.show();
 				thirdStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-
+					
 					public void handle(WindowEvent we) {
 						Bookings.temp_store.clear();
 						Bookings.temp_names.clear();
 					}
 				});
-
-
+				
+				
 			}
 		});
-
+		
 		ver_view.setOnAction(new EventHandler<ActionEvent>() {
-
+			
 			public void handle(ActionEvent event) {
 				Bookings.confirm_verify_info();
 				ver_name.setText("Name: " + Bookings.temp_info.get(2));
@@ -725,32 +686,32 @@ public class Main extends Application {
 				ver_name.setLayoutY(0);
 				Font ver_font = Font.font(14);
 				ver_name.setFont(ver_font);
-
+				
 				ver_email.setText("Email: " + Bookings.temp_info.get(3));
 				ver_email.setLayoutX(0);
 				ver_email.setLayoutY(20);
 				ver_email.setFont(ver_font);
-
+				
 				ver_reason.setText("Reason: " + Bookings.temp_info.get(4));
 				ver_reason.setLayoutX(0);
 				ver_reason.setLayoutY(40);
 				ver_reason.setFont(ver_font);
-
-
+				
+				
 				ver_time.setText("Time: " + Bookings.temp_info.get(5));
 				ver_time.setLayoutX(0);
 				ver_time.setLayoutY(60);
 				ver_time.setFont(ver_font);
-
-
-
-
+				
+				
+				
+				
 				thirdStage.setScene(var_details_scene);
 				thirdStage.setTitle("view details");
 				thirdStage.show();
-
+				
 				thirdStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-
+					
 					public void handle(WindowEvent we) {
 						Bookings.temp_names.clear();
 						Bookings.temp_store.clear();
@@ -759,10 +720,9 @@ public class Main extends Application {
 				});
 			}
 		});
-
-		//will work on this more do not touch -lougheed
+		
 		ver_confirm.setOnAction(new EventHandler<ActionEvent>() {
-
+			
 			public void handle(ActionEvent event) {
 				thirdStage.close();
 				Bookings.move_appo_data(Bookings.temp_info.get(1) + ".txt");
@@ -776,8 +736,8 @@ public class Main extends Application {
 				alert.showAndWait();
 			}
 		});
-
-
+		
+		
 
 		info_save.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -798,8 +758,6 @@ public class Main extends Application {
 					case "Ryan Roady":
 						str_personal("userdata/user.txt");
 						break;
-					case "Stephen Curry":
-						str_personal("userdata/stephencurry.txt");
 				}
 
 				newStage.close();
