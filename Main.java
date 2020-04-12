@@ -243,6 +243,24 @@ public class Main extends Application {
 		app1_lbl_pa.setLayoutY(200);
 		app1_lbl_pa.setFont(new Font("Arial", 24));
 
+		// My Info
+		Rectangle dapp1_rct = new Rectangle(540.00d, 200.00d, 400.00d, 600.00d);
+		dapp1_rct.setFill(Color.GAINSBORO);
+		Rectangle dapp2_rct = new Rectangle(540.00d, 200.00d, 400.00d, 30.00d);
+		dapp2_rct.setFill(Color.rgb(160, 0, 0, 0.7));
+		Label dapp1_lbl = new Label("My Info");
+		dapp1_lbl.setLayoutX(640);
+		dapp1_lbl.setLayoutY(200);
+		dapp1_lbl.setFont(new Font("Arial", 24));
+		// info
+		Label dtype_lbl = new Label(current.getType());
+		Label dname_lbl = new Label(current.getName());
+		dname_lbl.setLayoutX(545);
+		dname_lbl.setLayoutY(255);
+		dtype_lbl.setLayoutX(545);
+		dtype_lbl.setLayoutY(240);
+		
+		
 		// ListView appointments
 
 		add_upcoming_app(upc_app, current);
@@ -252,22 +270,63 @@ public class Main extends Application {
 		app_lst.setPrefWidth(400);
 		app_lst.setPrefHeight(600);
 
-		group.getChildren().addAll(app1_rct, app2_rct, app1_lbl, app1_rct_pa, app2_rct_pa, app1_lbl_pa, app_lst);
+		group.getChildren().addAll(app1_rct, app2_rct, app1_lbl, app1_rct_pa, app2_rct_pa, app1_lbl_pa, app_lst, dapp1_rct, dapp2_rct, dapp1_lbl, dname_lbl, dtype_lbl);
 	}
 
 	public static void goto_nurse(Group group) {
 		System.out.println("NURSE LOADED");
-		//group.getChildren().addAll();
+		// My Info Base
+		Rectangle napp1_rct = new Rectangle(40.00d, 200.00d, 400.00d, 600.00d);
+		napp1_rct.setFill(Color.GAINSBORO);
+		Rectangle napp2_rct = new Rectangle(40.00d, 200.00d, 400.00d, 30.00d);
+		napp2_rct.setFill(Color.rgb(160, 0, 0, 0.7));
+		Label napp1_lbl = new Label("My Info");
+		napp1_lbl.setLayoutX(140);
+		napp1_lbl.setLayoutY(200);
+		napp1_lbl.setFont(new Font("Arial", 24));
+		
+		// info
+		Label ntype_lbl = new Label(current.getType());
+		Label nname_lbl = new Label(current.getName());
+		nname_lbl.setLayoutX(45);
+		nname_lbl.setLayoutY(255);
+		ntype_lbl.setLayoutX(45);
+		ntype_lbl.setLayoutY(240);
+		
+		group.getChildren().addAll(napp1_rct, napp2_rct, napp1_lbl, ntype_lbl, nname_lbl);
 		}
 
-	public static void goto_patient(Group group) {
+	public static void goto_patient(Group group, User current) {
 		System.out.println("PATIENT LOADED");
-		//group.getChildren().addAll(info);
+		
+		// My Info Base
+		Rectangle papp1_rct = new Rectangle(40.00d, 200.00d, 400.00d, 600.00d);
+		papp1_rct.setFill(Color.GAINSBORO);
+		Rectangle papp2_rct = new Rectangle(40.00d, 200.00d, 400.00d, 30.00d);
+		papp2_rct.setFill(Color.rgb(160, 0, 0, 0.7));
+		Label papp1_lbl = new Label("My Info");
+		papp1_lbl.setLayoutX(140);
+		papp1_lbl.setLayoutY(200);
+		papp1_lbl.setFont(new Font("Arial", 24));
+		
+		// info
+		Label ptype_lbl = new Label(current.getType());
+		Label pname_lbl = new Label(current.getName());
+		pname_lbl.setLayoutX(45);
+		pname_lbl.setLayoutY(255);
+		ptype_lbl.setLayoutX(45);
+		ptype_lbl.setLayoutY(240);
+		
+		group.getChildren().addAll(papp1_rct, papp2_rct, papp1_lbl, pname_lbl, ptype_lbl);
 		}
 
 	public static void goto_admin(Group group) {
 		System.out.println("ADMIN LOADED");
-		//group.getChildren().addAll();
+		Label admin_lbl = new Label("YOU'RE THE ADMIN");
+		admin_lbl.setFont(new Font("Arial", 50));
+		admin_lbl.setLayoutX(200);
+		admin_lbl.setLayoutY(400);
+		group.getChildren().addAll(admin_lbl);
 		}
 
 
@@ -283,18 +342,10 @@ public class Main extends Application {
 		logo_lbl.setFont(new Font("Arial", 110));
 		logo_lbl.setLayoutX(40);
 		logo_lbl.setLayoutY(-10);
-		// Logged in user
-		Label info1_lbl = new Label("Logged in as");
-		info1_lbl.setFont(new Font("Arial", 20));
-		info1_lbl.setLayoutX(290);
-		info1_lbl.setLayoutY(50);
-		Label info2_lbl = new Label("TYPE" + ": " + "First " + "M " + "Last");
-		info2_lbl.setFont(new Font("Typewriter", 16));
-		info2_lbl.setLayoutX(290);
-		info2_lbl.setLayoutY(73);
+		
 
 
-		group.getChildren().addAll(header_rct,logo_lbl, info1_lbl, info2_lbl);
+		group.getChildren().addAll(header_rct,logo_lbl);
 	}
 
 	// save personal information to a specified user's file
@@ -676,7 +727,7 @@ public class Main extends Application {
 						goto_nurse(home);
 					}
 					else if (current.getType().equals("Patient")) {
-						goto_patient(home);
+						goto_patient(home, current);
 					}
 					else if (current.getType().equals("Admin")) {
 						goto_admin(home);

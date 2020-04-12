@@ -20,7 +20,6 @@ public abstract class User {
 	}
 	
 	public String getType() {
-		System.out.println(actor);
 		return this.actor;
 	}
 	
