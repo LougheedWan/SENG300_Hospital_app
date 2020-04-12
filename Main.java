@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.awt.ScrollPane;
 import java.io.*;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -47,6 +48,8 @@ public class Main extends Application {
 	private static ChoiceBox doc_choose;
 	private static ListView<String> list;
 	public static ListView<String> ver_list;
+	private static ListView<String> app_lst;
+	private static ObservableList<String> upc_app = FXCollections.observableArrayList();
 	
 
 	// Methods
@@ -158,6 +161,49 @@ public class Main extends Application {
 		}
 	}
 
+	
+	public static ObservableList<String> add_upcoming_app(ObservableList<String> upc_app, User current) {
+		String file = "userdata/" + current.getUsername() + ".txt";
+		System.out.println("file opened is " + file);
+		boolean check = false;
+		int c = 0;
+		String temp = "";
+		String next = "";
+		
+		try {
+			Scanner input = new Scanner(new File(file));
+			while (input.hasNext()) {
+				next = input.next();
+				if (check == true) {
+					if (c == 2) {
+						temp = next;
+						System.out.println("first = " + temp);
+					}
+					System.out.println("next = " + next);
+					if (next.equals("Monday") || next.equals("Tuesday") || next.equals("Wednesday") || next.equals("Thursday") || next.equals("Friday") || next.equals("Saturday") || next.equals("Sunday")) {
+						System.out.println("before c = " + temp);
+						String fin = temp.concat(" on " + next);
+						System.out.println(fin);
+						upc_app.add(fin);
+						check = false;
+					}
+					c++;
+						
+				}
+				if (next.equals("---")) {
+					System.out.println("FOUND apps");
+					c = 0;
+					check = true;
+				}
+			}
+			input.close();
+		}
+		catch (Exception e){
+			
+		}
+	return upc_app;
+	}
+	
 	public static String get_doc_txt() {
 		String temp = (String)doc_choose.getValue();
 		System.out.println(temp);
@@ -195,7 +241,16 @@ public class Main extends Application {
 		app1_lbl_pa.setLayoutY(200);
 		app1_lbl_pa.setFont(new Font("Arial", 24));
 
-		group.getChildren().addAll(app1_rct, app2_rct, app1_lbl, app1_rct_pa, app2_rct_pa, app1_lbl_pa);
+		// ListView appointments
+		
+		add_upcoming_app(upc_app, current);
+		app_lst = new ListView<String>(upc_app);
+		app_lst.setLayoutX(40);
+		app_lst.setLayoutY(230);
+		app_lst.setPrefWidth(400);
+		app_lst.setPrefHeight(600);
+		
+		group.getChildren().addAll(app1_rct, app2_rct, app1_lbl, app1_rct_pa, app2_rct_pa, app1_lbl_pa, app_lst);
 	}
 
 	public static void goto_nurse(Group group) {
