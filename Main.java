@@ -35,6 +35,7 @@ public class Main extends Application {
 	private Stage secondStage;
 	private Stage newStage;
 	private Stage thirdStage;
+	private Stage forthStage;
 	private static TextField name_input;
 	private static TextField email_input;
 	private static TextField name1_input;
@@ -50,7 +51,8 @@ public class Main extends Application {
 	public static ListView<String> ver_list;
 	private static ListView<String> app_lst;
 	private static ObservableList<String> upc_app = FXCollections.observableArrayList();
-	
+	public static ListView<String> del_list;
+
 
 	// Methods
 	public boolean checkLogin(String username, String password){
@@ -161,7 +163,7 @@ public class Main extends Application {
 		}
 	}
 
-	
+
 	public static ObservableList<String> add_upcoming_app(ObservableList<String> upc_app, User current) {
 		String file = "userdata/" + current.getUsername() + ".txt";
 		System.out.println("file opened is " + file);
@@ -169,7 +171,7 @@ public class Main extends Application {
 		int c = 0;
 		String temp = "";
 		String next = "";
-		
+
 		try {
 			Scanner input = new Scanner(new File(file));
 			while (input.hasNext()) {
@@ -188,7 +190,7 @@ public class Main extends Application {
 						check = false;
 					}
 					c++;
-						
+
 				}
 				if (next.equals("---")) {
 					System.out.println("FOUND apps");
@@ -199,11 +201,11 @@ public class Main extends Application {
 			input.close();
 		}
 		catch (Exception e){
-			
+
 		}
 	return upc_app;
 	}
-	
+
 	public static String get_doc_txt() {
 		String temp = (String)doc_choose.getValue();
 		System.out.println(temp);
@@ -242,14 +244,14 @@ public class Main extends Application {
 		app1_lbl_pa.setFont(new Font("Arial", 24));
 
 		// ListView appointments
-		
+
 		add_upcoming_app(upc_app, current);
 		app_lst = new ListView<String>(upc_app);
 		app_lst.setLayoutX(40);
 		app_lst.setLayoutY(230);
 		app_lst.setPrefWidth(400);
 		app_lst.setPrefHeight(600);
-		
+
 		group.getChildren().addAll(app1_rct, app2_rct, app1_lbl, app1_rct_pa, app2_rct_pa, app1_lbl_pa, app_lst);
 	}
 
@@ -346,12 +348,16 @@ public class Main extends Application {
 
 		Group pinfo = new Group();
 		Scene pinfo_scene = new Scene(pinfo, 1000, 620);
-		
+
 		Group var_appo = new Group();
 		Scene var_appo_scene = new Scene(var_appo, 1000, 500);
-		
+
 		Group var_details = new Group();
 		Scene var_details_scene = new Scene(var_details, 500, 400);
+
+		Group delete_times = new Group();
+		Scene delete_times_scene = new Scene (delete_times, 500, 400);
+
 
 		// 		LOGIN 		//
 		// buttons
@@ -423,6 +429,11 @@ public class Main extends Application {
 		info.setLayoutX(1000);
 		info.setLayoutY(110);
 		info.setStyle("-fx-background-color: Cornsilk");
+
+		Button delete_appo = new Button ("delete appoitments");
+		delete_appo.setLayoutX(1700);
+		delete_appo.setLayoutY(200);
+		delete_appo.setStyle("-fx-background-color: Cornsilk");
 
 // add personal information //
 	// name
@@ -593,27 +604,27 @@ public class Main extends Application {
 		confirm_appo.setLayoutY(350);
 
 		times.getChildren().addAll(title,list, confirm_appo);
-		
+
 		//verify appo//
-		
+
 		Label ver_title = new Label("here are your pending appoitnments");
 		ver_title.setLayoutX(0);
 		ver_title.setLayoutY(0);
 		ver_title.setFont(fonts);
-		
+
 		ver_list = new ListView<String>(Bookings.temp_names);
 		ver_list.setLayoutX(0);
 		ver_list.setLayoutY(100);
 		ver_list.setPrefSize(400, 300);
-		
+
 		Button ver_view = new Button("view details");
 		ver_view.setLayoutX(500);
 		ver_view.setLayoutY(400);
 
 		var_appo.getChildren().addAll(ver_title, ver_list, ver_view);
-		
+
 		//verify appo second scene//
-	
+
 		Label ver_name = new Label();
 		Label ver_email = new Label();
 		Label ver_reason = new Label();
@@ -621,8 +632,26 @@ public class Main extends Application {
 		Button ver_confirm = new Button ("confirm this patient");
 		ver_confirm.setLayoutX(100);
 		ver_confirm.setLayoutY(100);
-		
+
 		var_details.getChildren().addAll(ver_name, ver_email, ver_reason, ver_time, ver_confirm);
+
+		Label del_title = new Label("here are your confirmed appoitments");
+		del_title.setLayoutX(0);
+		del_title.setLayoutY(0);
+		del_title.setFont(email_font);
+
+		del_list = new ListView<String>(Bookings.appo_times);
+		del_list.setLayoutX(0);
+		del_list.setLayoutY(40);
+		del_list.setPrefSize(400, 300);
+
+		Button confirm = new Button("confirm");
+		confirm.setLayoutX(250);
+		confirm.setLayoutY(350);
+
+
+		delete_times.getChildren().addAll(del_title, del_list, confirm);
+
 		// BUTTON ACTIONS //
 
 
@@ -638,7 +667,7 @@ public class Main extends Application {
 					name_user.setFont(main_font);
 					primaryStage.setScene(main_scene);
 					base_gui(home);
-					home.getChildren().addAll(new_apo,name_user,var_apo, info);
+					home.getChildren().addAll(new_apo,name_user,var_apo, info, delete_appo);
 
 					if (current.getType().equals("Doctor")) {
 						goto_doctor(home);
@@ -690,7 +719,7 @@ public class Main extends Application {
 				store_appo_info("pending.txt");
 				secondStage.close();
 				secondStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-					
+
 					public void handle(WindowEvent we) {
 						Bookings.doc_times.clear();
 					}
@@ -710,9 +739,9 @@ public class Main extends Application {
 				newStage.show();
 			}
 		});
-		
+
 		var_apo.setOnAction(new EventHandler<ActionEvent>() {
-			
+
 			public void handle(ActionEvent event) {
 				Bookings.verify_appo("pending.txt");
 				Bookings.get_verify_info();
@@ -721,19 +750,19 @@ public class Main extends Application {
 				thirdStage.setTitle("verify appoitments");
 				thirdStage.show();
 				thirdStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-					
+
 					public void handle(WindowEvent we) {
 						Bookings.temp_store.clear();
 						Bookings.temp_names.clear();
 					}
 				});
-				
-				
+
+
 			}
 		});
-		
+
 		ver_view.setOnAction(new EventHandler<ActionEvent>() {
-			
+
 			public void handle(ActionEvent event) {
 				Bookings.confirm_verify_info();
 				ver_name.setText("Name: " + Bookings.temp_info.get(2));
@@ -741,32 +770,32 @@ public class Main extends Application {
 				ver_name.setLayoutY(0);
 				Font ver_font = Font.font(14);
 				ver_name.setFont(ver_font);
-				
+
 				ver_email.setText("Email: " + Bookings.temp_info.get(3));
 				ver_email.setLayoutX(0);
 				ver_email.setLayoutY(20);
 				ver_email.setFont(ver_font);
-				
+
 				ver_reason.setText("Reason: " + Bookings.temp_info.get(4));
 				ver_reason.setLayoutX(0);
 				ver_reason.setLayoutY(40);
 				ver_reason.setFont(ver_font);
-				
-				
+
+
 				ver_time.setText("Time: " + Bookings.temp_info.get(5));
 				ver_time.setLayoutX(0);
 				ver_time.setLayoutY(60);
 				ver_time.setFont(ver_font);
-				
-				
-				
-				
+
+
+
+
 				thirdStage.setScene(var_details_scene);
 				thirdStage.setTitle("view details");
 				thirdStage.show();
-				
+
 				thirdStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-					
+
 					public void handle(WindowEvent we) {
 						Bookings.temp_names.clear();
 						Bookings.temp_store.clear();
@@ -775,9 +804,9 @@ public class Main extends Application {
 				});
 			}
 		});
-		
+
 		ver_confirm.setOnAction(new EventHandler<ActionEvent>() {
-			
+
 			public void handle(ActionEvent event) {
 				thirdStage.close();
 				Bookings.move_appo_data(Bookings.temp_info.get(1) + ".txt");
@@ -791,8 +820,8 @@ public class Main extends Application {
 				alert.showAndWait();
 			}
 		});
-		
-		
+
+
 
 		info_save.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -819,6 +848,38 @@ public class Main extends Application {
 
 				Alert alert_save = new Alert(AlertType.INFORMATION, "Your information has been successfully saved.", ButtonType.OK);
 				alert_save.showAndWait();
+			}
+		});
+
+		delete_appo.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				Bookings.get_delete_appo();
+				forthStage = new Stage();
+				forthStage.setScene(delete_times_scene);
+				forthStage.show();
+
+				forthStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+					public void handle(WindowEvent we) {
+						Bookings.appo_times.clear();
+					}
+				});
+
+			}
+		});
+
+		confirm.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				forthStage.close();
+
+				Bookings.delete_appo();
+				Alert del_alert = new Alert(AlertType.INFORMATION, "Your appointment has been removed.", ButtonType.OK);
+				del_alert.showAndWait();
+
+				Bookings.appo_times.clear();
+
 			}
 		});
 

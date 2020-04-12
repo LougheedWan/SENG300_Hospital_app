@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.nio.file.Files;
@@ -15,6 +16,7 @@ import javafx.collections.ObservableList;
 public class Bookings {
 
 	public static ObservableList<String> doc_times = FXCollections.observableArrayList();
+	public static ObservableList<String> appo_times = FXCollections.observableArrayList();
 	public static ArrayList<String> temp_store = new ArrayList<String>();
 	public static ObservableList<String> temp_names = FXCollections.observableArrayList();
 	public static ArrayList<String> temp_info = new ArrayList<String>();
@@ -189,6 +191,63 @@ public class Bookings {
 			System.out.println(sucess);
 		}
 		catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	public static void get_delete_appo() {
+		try {
+			String input = Main.current.getUsername();
+			Scanner c = new Scanner(new File("userdata/" + input + ".txt"));
+			while (c.hasNext()) {
+				if (c.nextLine().equals("---")) {
+					c.nextLine();
+					c.nextLine();
+					c.nextLine();
+					c.nextLine();
+					appo_times.add(c.nextLine());
+					System.out.println(appo_times);
+				}
+			}
+			c.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static void delete_appo() {
+		String input2 = Main.current.getUsername();
+		File temp = new File("pendingtemp.txt");
+		File inputfile = new File("userdata/" + input2 + ".txt");
+		String currentLine;
+		int current_appo = Main.del_list.getSelectionModel().getSelectedIndex() +1;
+		int count = 0;
+		try {
+			BufferedReader input = new BufferedReader (new FileReader(inputfile));
+			BufferedWriter output = new BufferedWriter (new FileWriter(temp));
+			
+			while ((currentLine = input.readLine()) != null) {
+				if (currentLine.equals("---")) {
+					count++;
+				}
+				if (current_appo == count) {
+					
+				}
+				else {
+					output.write(currentLine);
+					output.write("\n");
+				}
+				
+			}
+			input.close();
+			output.close();
+			System.gc();
+			Path path = Paths.get(inputfile.getAbsolutePath());
+			Files.delete(path);
+			boolean sucess = temp.renameTo(inputfile);
+		}
+		catch(Exception e) {
 			System.out.println(e);
 		}
 	}
