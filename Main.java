@@ -36,6 +36,7 @@ public class Main extends Application {
 	private Stage newStage;
 	private Stage thirdStage;
 	private Stage forthStage;
+	private static Stage Currystage;
 	private static TextField name_input;
 	private static TextField email_input;
 	private static TextField name1_input;
@@ -43,6 +44,7 @@ public class Main extends Application {
 	private static TextField number_input;
 	private static TextField email_1_input;
 	private static TextField dob_input;
+	private static TextField test_input;
 	private static ComboBox gender_combobox;
 	private static TextArea additional_info;
 	private static TextArea reason_txt;
@@ -221,6 +223,9 @@ public class Main extends Application {
 
 	}
 	public static void goto_doctor(Group group) {
+		Group c_stephen = new Group();
+		Scene curry_scene = new Scene(c_stephen, 500, 500);
+
 		// Rectangles
 		Rectangle app1_rct = new Rectangle(40.00d, 200.00d, 400.00d, 600.00d);
 		app1_rct.setFill(Color.GAINSBORO);
@@ -259,8 +264,8 @@ public class Main extends Application {
 		dname_lbl.setLayoutY(255);
 		dtype_lbl.setLayoutX(545);
 		dtype_lbl.setLayoutY(240);
-		
-		
+
+
 		// ListView appointments
 
 		add_upcoming_app(upc_app, current);
@@ -270,7 +275,84 @@ public class Main extends Application {
 		app_lst.setPrefWidth(400);
 		app_lst.setPrefHeight(600);
 
-		group.getChildren().addAll(app1_rct, app2_rct, app1_lbl, app1_rct_pa, app2_rct_pa, app1_lbl_pa, app_lst, dapp1_rct, dapp2_rct, dapp1_lbl, dname_lbl, dtype_lbl);
+		// Button - patient Stephen Curry
+		Button stephen = new Button("Curry, Stephen");
+		stephen.setPrefWidth(200);
+		stephen.setLayoutX(1100);
+		stephen.setLayoutY(300);
+		stephen.setStyle("-fx-background-color: Honeydew");
+
+
+		group.getChildren().addAll(app1_rct, app2_rct, app1_lbl, app1_rct_pa, app2_rct_pa, app1_lbl_pa, app_lst, dapp1_rct, dapp2_rct, dapp1_lbl, dname_lbl, dtype_lbl, stephen);
+
+		//referrals for patients//
+		Label lab_test = new Label("Refer for the following test(s):");
+		lab_test.setLayoutX(30);
+		lab_test.setLayoutY(30);
+		Font lab_test_font = Font.font(16);
+		lab_test.setFont(lab_test_font);
+
+		Rectangle tests = new Rectangle(30.00d, 55.00d, 450.00d, 200.00d);
+		tests.setFill(Color.TRANSPARENT);
+		tests.setStroke(Color.BLACK);
+
+		CheckBox blood = new CheckBox("Blood");
+		blood.setLayoutX(40);
+		blood.setLayoutY(70);
+
+		CheckBox urine = new CheckBox("Urine");
+		urine.setLayoutX(40);
+		urine.setLayoutY(90);
+
+		CheckBox ct = new CheckBox("CT");
+		ct.setLayoutX(40);
+		ct.setLayoutY(110);
+
+		CheckBox mri = new CheckBox("MRI");
+		mri.setLayoutX(40);
+		mri.setLayoutY(130);
+
+		CheckBox ultra = new CheckBox("Ultrasound");
+		ultra.setLayoutX(40);
+		ultra.setLayoutY(150);
+
+		CheckBox other = new CheckBox("Other");
+		other.setLayoutX(40);
+		other.setLayoutY(170);
+
+		test_input = new TextField("Details of the test");
+		test_input.setPrefWidth(300);
+		test_input.setLayoutX(100);
+		test_input.setLayoutY(170);
+
+		Button save = new Button("Save");
+		save.setPrefWidth(100);
+		save.setLayoutX(215);
+		save.setLayoutY(400);
+		save.setStyle("-fx-background-color: Cornsilk");
+
+		c_stephen.getChildren().addAll(lab_test,tests, blood, urine, ct, mri, ultra, other, test_input, save);
+
+		// Stephen Curry info window
+		stephen.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				Currystage = new Stage();
+				Currystage.setScene(curry_scene);
+				Currystage.setTitle("Curry, Stephen: patient information");
+				Currystage.show();
+			}
+		});
+
+		save.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				Currystage.close();
+
+				Alert alert_save = new Alert(AlertType.INFORMATION, "Test referral information has been successfully saved.", ButtonType.OK);
+				alert_save.showAndWait();
+			}
+		});
 	}
 
 	public static void goto_nurse(Group group) {
@@ -284,7 +366,7 @@ public class Main extends Application {
 		napp1_lbl.setLayoutX(140);
 		napp1_lbl.setLayoutY(200);
 		napp1_lbl.setFont(new Font("Arial", 24));
-		
+
 		// info
 		Label ntype_lbl = new Label(current.getType());
 		Label nname_lbl = new Label(current.getName());
@@ -292,13 +374,13 @@ public class Main extends Application {
 		nname_lbl.setLayoutY(255);
 		ntype_lbl.setLayoutX(45);
 		ntype_lbl.setLayoutY(240);
-		
+
 		group.getChildren().addAll(napp1_rct, napp2_rct, napp1_lbl, ntype_lbl, nname_lbl);
 		}
 
 	public static void goto_patient(Group group, User current) {
 		System.out.println("PATIENT LOADED");
-		
+
 		// My Info Base
 		Rectangle papp1_rct = new Rectangle(40.00d, 200.00d, 400.00d, 600.00d);
 		papp1_rct.setFill(Color.GAINSBORO);
@@ -308,7 +390,7 @@ public class Main extends Application {
 		papp1_lbl.setLayoutX(140);
 		papp1_lbl.setLayoutY(200);
 		papp1_lbl.setFont(new Font("Arial", 24));
-		
+
 		// info
 		Label ptype_lbl = new Label(current.getType());
 		Label pname_lbl = new Label(current.getName());
@@ -316,7 +398,7 @@ public class Main extends Application {
 		pname_lbl.setLayoutY(255);
 		ptype_lbl.setLayoutX(45);
 		ptype_lbl.setLayoutY(240);
-		
+
 		group.getChildren().addAll(papp1_rct, papp2_rct, papp1_lbl, pname_lbl, ptype_lbl);
 		}
 
@@ -342,7 +424,7 @@ public class Main extends Application {
 		logo_lbl.setFont(new Font("Arial", 110));
 		logo_lbl.setLayoutX(40);
 		logo_lbl.setLayoutY(-10);
-		
+
 
 
 		group.getChildren().addAll(header_rct,logo_lbl);
