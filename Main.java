@@ -52,6 +52,7 @@ public class Main extends Application {
 	private static ListView<String> list;
 	public static ListView<String> ver_list;
 	private static ListView<String> app_lst;
+	private static ListView<String> papp_lst;
 	private static ObservableList<String> upc_app = FXCollections.observableArrayList();
 	public static ListView<String> del_list;
 
@@ -168,10 +169,10 @@ public class Main extends Application {
 
 	public static ObservableList<String> add_upcoming_app(ObservableList<String> upc_app, User current) {
 		String file = "userdata/" + current.getUsername() + ".txt";
-		System.out.println("file opened is " + file);
 		boolean check = false;
 		int c = 0;
 		String temp = "";
+		String tempf = "";
 		String next = "";
 
 		try {
@@ -179,15 +180,15 @@ public class Main extends Application {
 			while (input.hasNext()) {
 				next = input.next();
 				if (check == true) {
-					if (c == 2) {
+					if (c == 2 && current.getType().equals("Doctor")) {
 						temp = next;
-						System.out.println("first = " + temp);
+					} else if (c == 0 && current.getType().equals("Patient")) {
+						tempf = next;
+					} else if( c == 1 && current.getType().equals("Patient")) {
+						temp = tempf.concat(" " + next);
 					}
-					System.out.println("next = " + next);
 					if (next.equals("Monday") || next.equals("Tuesday") || next.equals("Wednesday") || next.equals("Thursday") || next.equals("Friday") || next.equals("Saturday") || next.equals("Sunday")) {
-						System.out.println("before c = " + temp);
 						String fin = temp.concat(" on " + next);
-						System.out.println(fin);
 						upc_app.add(fin);
 						check = false;
 					}
@@ -210,7 +211,6 @@ public class Main extends Application {
 
 	public static String get_doc_txt() {
 		String temp = (String)doc_choose.getValue();
-		System.out.println(temp);
 		if(temp.equals("Bob Ross")) {
 			return "bobross.txt";
 		}
@@ -380,26 +380,45 @@ public class Main extends Application {
 
 	public static void goto_patient(Group group, User current) {
 		System.out.println("PATIENT LOADED");
-
+		
+		// Rectangles
+		Rectangle pinf1_rct = new Rectangle(40.00d, 200.00d, 400.00d, 600.00d);
+		pinf1_rct.setFill(Color.GAINSBORO);
+		Rectangle pinf2_rct = new Rectangle(40.00d, 200.00d, 400.00d, 30.00d);
+		pinf2_rct.setFill(Color.rgb(160, 0, 0, 0.7));
+		// Labels
+		Label pinf1_lbl = new Label("Upcoming Appointments");
+		pinf1_lbl.setLayoutX(100);
+		pinf1_lbl.setLayoutY(200);
+		pinf1_lbl.setFont(new Font("Arial", 24));
+				
 		// My Info Base
-		Rectangle papp1_rct = new Rectangle(40.00d, 200.00d, 400.00d, 600.00d);
+		Rectangle papp1_rct = new Rectangle(540.00d, 200.00d, 400.00d, 600.00d);
 		papp1_rct.setFill(Color.GAINSBORO);
-		Rectangle papp2_rct = new Rectangle(40.00d, 200.00d, 400.00d, 30.00d);
+		Rectangle papp2_rct = new Rectangle(540.00d, 200.00d, 400.00d, 30.00d);
 		papp2_rct.setFill(Color.rgb(160, 0, 0, 0.7));
 		Label papp1_lbl = new Label("My Info");
-		papp1_lbl.setLayoutX(140);
+		papp1_lbl.setLayoutX(640);
 		papp1_lbl.setLayoutY(200);
 		papp1_lbl.setFont(new Font("Arial", 24));
 
 		// info
 		Label ptype_lbl = new Label(current.getType());
 		Label pname_lbl = new Label(current.getName());
-		pname_lbl.setLayoutX(45);
+		pname_lbl.setLayoutX(545);
 		pname_lbl.setLayoutY(255);
-		ptype_lbl.setLayoutX(45);
+		ptype_lbl.setLayoutX(545);
 		ptype_lbl.setLayoutY(240);
 
-		group.getChildren().addAll(papp1_rct, papp2_rct, papp1_lbl, pname_lbl, ptype_lbl);
+		
+		add_upcoming_app(upc_app, current);
+		papp_lst = new ListView<String>(upc_app);
+		papp_lst.setLayoutX(40);
+		papp_lst.setLayoutY(230);
+		papp_lst.setPrefWidth(400);
+		papp_lst.setPrefHeight(600);
+		
+		group.getChildren().addAll(pinf1_rct, pinf2_rct, pinf1_lbl, papp1_rct, papp2_rct, papp1_lbl, pname_lbl, ptype_lbl, papp_lst);
 		}
 
 	public static void goto_admin(Group group) {
